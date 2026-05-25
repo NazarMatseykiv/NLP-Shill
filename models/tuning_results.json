@@ -1,0 +1,9 @@
+{
+  "tuned_at": "2026-05-22T00:02:18",
+  "model_name": "linear_svc",
+  "feature_set": "combined",
+  "best_params": {
+    "clf__C": 0.5
+  },
+  "best_cv_f1_macro": 0.9517280327548949
+}

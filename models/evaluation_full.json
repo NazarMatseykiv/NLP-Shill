@@ -1,0 +1,124 @@
+{
+  "data_quality": {
+    "path": "C:\\Users\\NazarM\\food-delivery-nlp\\data\\intents_merged.csv",
+    "total_samples": 643,
+    "unique_intents": 4,
+    "intent_distribution": {
+      "create_order": {
+        "count": 211,
+        "share": 0.3281
+      },
+      "track_order": {
+        "count": 146,
+        "share": 0.2271
+      },
+      "cancel_order": {
+        "count": 141,
+        "share": 0.2193
+      },
+      "faq": {
+        "count": 145,
+        "share": 0.2255
+      }
+    },
+    "class_imbalance_ratio": 1.5,
+    "duplicate_texts": 0,
+    "completeness_empty_text": 0,
+    "avg_tokens": 7.28,
+    "min_tokens": 1,
+    "max_tokens": 19,
+    "quality_notes": {
+      "accuracy": "Тексти нормалізовані (lower, NFC); дублікати видаляються при merge",
+      "completeness": "Порожні рядки відсутні",
+      "consistency": "Єдиний формат intent: create_order | track_order | cancel_order | faq",
+      "timeliness": "Статичний корпус; оновлення — scripts/download_datasets.py"
+    }
+  },
+  "intent_cv": {
+    "model": "linear_svc",
+    "feature_set": "combined",
+    "cv_folds": 5,
+    "f1_macro_mean": 0.8730983711495046,
+    "f1_macro_std": 0.1568879631278586,
+    "f1_macro_scores": [
+      0.5603021978021978,
+      0.9487081524950587,
+      0.9299916099337954,
+      0.9599869876382563,
+      0.9665029078782148
+    ]
+  },
+  "slots": {
+    "slot_tests_total": 3,
+    "slot_tests_passed": 3,
+    "slot_accuracy": 1.0,
+    "details": [
+      {
+        "text": "Два борщі та салат на вул. Шевченка 12",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 1,
+              "dish_name": "Borscht / Борщ",
+              "quantity": 2,
+              "raw": "борщ"
+            },
+            {
+              "dish_id": 4,
+              "dish_name": "Caesar Salad",
+              "quantity": 2,
+              "raw": "салат"
+            }
+          ],
+          "address": "Шевченка",
+          "payment": null,
+          "comment": null,
+          "time_hint": null
+        }
+      },
+      {
+        "text": "Two burgers and fries delivered to 12 Main Street pay by card",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 5,
+              "dish_name": "Burger",
+              "quantity": 2,
+              "raw": "burger"
+            },
+            {
+              "dish_id": 6,
+              "dish_name": "French Fries",
+              "quantity": 2,
+              "raw": "fries"
+            }
+          ],
+          "address": "12 Main Street",
+          "payment": "card",
+          "comment": null,
+          "time_hint": null
+        }
+      },
+      {
+        "text": "One pizza no onions at 5 Oak Avenue",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 3,
+              "dish_name": "Pizza Margherita",
+              "quantity": 1,
+              "raw": "pizza"
+            }
+          ],
+          "address": "5 Oak Avenue",
+          "payment": null,
+          "comment": "no onions at",
+          "time_hint": null
+        }
+      }
+    ]
+  }
+}

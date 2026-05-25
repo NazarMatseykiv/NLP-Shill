@@ -1,0 +1,35 @@
+text,intent
+"I want two burgers and a coke delivered to 12 Main Street",create_order
+"Can I get a large pizza margherita and fries please",create_order
+"Order one caesar salad and espresso to 5 Oak Avenue apt 3",create_order
+"Please deliver 2 soups and chicken wings to 88 River Road",create_order
+"I'd like a burrito and latte cash on delivery",create_order
+"Get me three tacos and a cola to 14 Park Lane",create_order
+"Send one burger no onions and fries to 22 Baker Street",create_order
+"I need 2 pizzas and garlic bread deliver to 7 Hill Street",create_order
+"Add a sushi roll and miso soup to my order at 30 Lake View",create_order
+"One pasta carbonara and sparkling water 19 Green Street",create_order
+"Deliver two coffees and a croissant to downtown 45 West End",create_order
+"I want vegan burger with salad to 3 Maple Drive",create_order
+"Place an order: chicken burger fries coke address 10 High Street",create_order
+"Could you bring me pad thai and spring rolls 6 King Road",create_order
+"Two pepperoni pizzas extra cheese 100 Main St card payment",create_order
+"Where is my order?",track_order
+"What is the status of my delivery?",track_order
+"When will my food arrive?",track_order
+"Track my order please",track_order
+"Is the courier on the way?",track_order
+"Has my pizza been shipped yet?",track_order
+"Cancel my order",cancel_order
+"I want to cancel the delivery",cancel_order
+"Please cancel order number 42",cancel_order
+"Stop my food order",cancel_order
+"Do not deliver anymore cancel it",cancel_order
+"What is on the menu?",faq
+"How much does the burger cost?",faq
+"Do you deliver after 10 pm?",faq
+"What payment methods do you accept?",faq
+"Is there a minimum order amount?",faq
+"How long does delivery take?",faq
+"Are you open today?",faq
+"Do you have gluten free options?",faq

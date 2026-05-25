@@ -1,0 +1,35 @@
+{
+  "path": "C:\\Users\\NazarM\\food-delivery-nlp\\data\\intents_merged.csv",
+  "total_samples": 643,
+  "unique_intents": 4,
+  "intent_distribution": {
+    "create_order": {
+      "count": 211,
+      "share": 0.3281
+    },
+    "track_order": {
+      "count": 146,
+      "share": 0.2271
+    },
+    "cancel_order": {
+      "count": 141,
+      "share": 0.2193
+    },
+    "faq": {
+      "count": 145,
+      "share": 0.2255
+    }
+  },
+  "class_imbalance_ratio": 1.5,
+  "duplicate_texts": 0,
+  "completeness_empty_text": 0,
+  "avg_tokens": 7.28,
+  "min_tokens": 1,
+  "max_tokens": 19,
+  "quality_notes": {
+    "accuracy": "Тексти нормалізовані (lower, NFC); дублікати видаляються при merge",
+    "completeness": "Порожні рядки відсутні",
+    "consistency": "Єдиний формат intent: create_order | track_order | cancel_order | faq",
+    "timeliness": "Статичний корпус; оновлення — scripts/download_datasets.py"
+  }
+}

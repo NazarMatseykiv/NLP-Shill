@@ -1,0 +1,215 @@
+{
+  "created_at": "2026-05-22T00:02:05",
+  "data_path": "C:\\Users\\NazarM\\food-delivery-nlp\\data\\intents_merged.csv",
+  "data_quality_summary": {
+    "total_samples": 643,
+    "class_imbalance_ratio": 1.5,
+    "duplicate_texts": 0
+  },
+  "by_feature_set": {
+    "char": {
+      "data_path": "C:\\Users\\NazarM\\food-delivery-nlp\\data\\intents_merged.csv",
+      "train_size": 514,
+      "test_size": 129,
+      "cv_folds": 5,
+      "feature_set": "char",
+      "ranking": [
+        {
+          "model": "linear_svc",
+          "feature_set": "char",
+          "cv_accuracy_mean": 0.9533309108527132,
+          "cv_accuracy_std": 0.01902386231288065,
+          "cv_f1_macro_mean": 0.9494676085200959,
+          "cv_f1_macro_std": 0.02048839052970302,
+          "test_accuracy": 0.9767441860465116,
+          "test_f1_macro": 0.976444530046225,
+          "test_precision_macro": 0.9805555555555556,
+          "test_recall_macro": 0.9741379310344828,
+          "train_time_sec": 0.1293,
+          "predict_time_sec": 0.019848
+        },
+        {
+          "model": "logistic_regression",
+          "feature_set": "char",
+          "cv_accuracy_mean": 0.9455305232558139,
+          "cv_accuracy_std": 0.0140443091970936,
+          "cv_f1_macro_mean": 0.9429630240982079,
+          "cv_f1_macro_std": 0.015654575111379382,
+          "test_accuracy": 0.9767441860465116,
+          "test_f1_macro": 0.976444530046225,
+          "test_precision_macro": 0.9805555555555556,
+          "test_recall_macro": 0.9741379310344828,
+          "train_time_sec": 0.1682,
+          "predict_time_sec": 0.010762
+        },
+        {
+          "model": "random_forest",
+          "feature_set": "char",
+          "cv_accuracy_mean": 0.9362160852713177,
+          "cv_accuracy_std": 0.012514486584072212,
+          "cv_f1_macro_mean": 0.9332151535298154,
+          "cv_f1_macro_std": 0.01365367032314335,
+          "test_accuracy": 0.9457364341085271,
+          "test_f1_macro": 0.944429845691178,
+          "test_precision_macro": 0.9475118779694924,
+          "test_recall_macro": 0.9452686447473937,
+          "train_time_sec": 0.9353,
+          "predict_time_sec": 0.142964
+        },
+        {
+          "model": "complement_nb",
+          "feature_set": "char",
+          "cv_accuracy_mean": 0.9113372093023255,
+          "cv_accuracy_std": 0.018818831417073766,
+          "cv_f1_macro_mean": 0.9104519615017661,
+          "cv_f1_macro_std": 0.018301532855883644,
+          "test_accuracy": 0.9457364341085271,
+          "test_f1_macro": 0.9417692229083636,
+          "test_precision_macro": 0.9449924981245311,
+          "test_recall_macro": 0.9424619085805933,
+          "train_time_sec": 0.132,
+          "predict_time_sec": 0.01668
+        }
+      ],
+      "best_model": "linear_svc"
+    },
+    "word": {
+      "data_path": "C:\\Users\\NazarM\\food-delivery-nlp\\data\\intents_merged.csv",
+      "train_size": 514,
+      "test_size": 129,
+      "cv_folds": 5,
+      "feature_set": "word",
+      "ranking": [
+        {
+          "model": "linear_svc",
+          "feature_set": "word",
+          "cv_accuracy_mean": 0.9456031976744186,
+          "cv_accuracy_std": 0.016168783338246107,
+          "cv_f1_macro_mean": 0.941522576323524,
+          "cv_f1_macro_std": 0.01680722412612665,
+          "test_accuracy": 0.9534883720930233,
+          "test_f1_macro": 0.9498123246988945,
+          "test_precision_macro": 0.9536782661782662,
+          "test_recall_macro": 0.9482758620689655,
+          "train_time_sec": 0.0361,
+          "predict_time_sec": 0.006732
+        },
+        {
+          "model": "logistic_regression",
+          "feature_set": "word",
+          "cv_accuracy_mean": 0.944016472868217,
+          "cv_accuracy_std": 0.0133329777028019,
+          "cv_f1_macro_mean": 0.9403640283573141,
+          "cv_f1_macro_std": 0.015611491095074398,
+          "test_accuracy": 0.9612403100775194,
+          "test_f1_macro": 0.9587018339806029,
+          "test_precision_macro": 0.9646953405017922,
+          "test_recall_macro": 0.9568965517241379,
+          "train_time_sec": 0.0588,
+          "predict_time_sec": 0.005217
+        },
+        {
+          "model": "complement_nb",
+          "feature_set": "word",
+          "cv_accuracy_mean": 0.9346656976744185,
+          "cv_accuracy_std": 0.02487881110209456,
+          "cv_f1_macro_mean": 0.9321473571888381,
+          "cv_f1_macro_std": 0.026093062133038948,
+          "test_accuracy": 0.937984496124031,
+          "test_f1_macro": 0.9321969696969697,
+          "test_precision_macro": 0.9384081196581198,
+          "test_recall_macro": 0.9310344827586206,
+          "train_time_sec": 0.0453,
+          "predict_time_sec": 0.013799
+        },
+        {
+          "model": "random_forest",
+          "feature_set": "word",
+          "cv_accuracy_mean": 0.8864098837209301,
+          "cv_accuracy_std": 0.01851643785383744,
+          "cv_f1_macro_mean": 0.8795445424229161,
+          "cv_f1_macro_std": 0.021149972751764022,
+          "test_accuracy": 0.9224806201550387,
+          "test_f1_macro": 0.9213249713249713,
+          "test_precision_macro": 0.9330916282135795,
+          "test_recall_macro": 0.9222133119486767,
+          "train_time_sec": 1.0751,
+          "predict_time_sec": 0.077147
+        }
+      ],
+      "best_model": "linear_svc"
+    },
+    "combined": {
+      "data_path": "C:\\Users\\NazarM\\food-delivery-nlp\\data\\intents_merged.csv",
+      "train_size": 514,
+      "test_size": 129,
+      "cv_folds": 5,
+      "feature_set": "combined",
+      "ranking": [
+        {
+          "model": "linear_svc",
+          "feature_set": "combined",
+          "cv_accuracy_mean": 0.953391472868217,
+          "cv_accuracy_std": 0.01460625243242031,
+          "cv_f1_macro_mean": 0.9500337241411572,
+          "cv_f1_macro_std": 0.01522315640729621,
+          "test_accuracy": 0.9689922480620154,
+          "test_f1_macro": 0.9662626393570133,
+          "test_precision_macro": 0.9678175432485777,
+          "test_recall_macro": 0.9655172413793104,
+          "train_time_sec": 0.0851,
+          "predict_time_sec": 0.013511
+        },
+        {
+          "model": "logistic_regression",
+          "feature_set": "combined",
+          "cv_accuracy_mean": 0.947141472868217,
+          "cv_accuracy_std": 0.010216106571111007,
+          "cv_f1_macro_mean": 0.9437147306885786,
+          "cv_f1_macro_std": 0.011347594721010384,
+          "test_accuracy": 0.9767441860465116,
+          "test_f1_macro": 0.976617680565049,
+          "test_precision_macro": 0.9802681992337166,
+          "test_recall_macro": 0.9741379310344828,
+          "train_time_sec": 0.2239,
+          "predict_time_sec": 0.014791
+        },
+        {
+          "model": "random_forest",
+          "feature_set": "combined",
+          "cv_accuracy_mean": 0.9439680232558139,
+          "cv_accuracy_std": 0.015247317026014671,
+          "cv_f1_macro_mean": 0.9409528330489166,
+          "cv_f1_macro_std": 0.01790314995083102,
+          "test_accuracy": 0.937984496124031,
+          "test_f1_macro": 0.9376124133864072,
+          "test_precision_macro": 0.9386574074074073,
+          "test_recall_macro": 0.9394546912590216,
+          "train_time_sec": 0.7327,
+          "predict_time_sec": 0.102184
+        },
+        {
+          "model": "complement_nb",
+          "feature_set": "combined",
+          "cv_accuracy_mean": 0.9299781976744186,
+          "cv_accuracy_std": 0.02314465672721095,
+          "cv_f1_macro_mean": 0.9275470092841751,
+          "cv_f1_macro_std": 0.024900411619912587,
+          "test_accuracy": 0.9457364341085271,
+          "test_f1_macro": 0.9410219018269865,
+          "test_precision_macro": 0.9458206966271482,
+          "test_recall_macro": 0.939655172413793,
+          "train_time_sec": 0.0557,
+          "predict_time_sec": 0.016503
+        }
+      ],
+      "best_model": "linear_svc"
+    }
+  },
+  "recommended": {
+    "model": "linear_svc",
+    "feature_set": "combined",
+    "cv_f1_macro_mean": 0.9500337241411572,
+    "test_f1_macro": 0.9662626393570133
+  }
+}

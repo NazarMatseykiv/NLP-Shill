@@ -1,0 +1,629 @@
+text,intent,source
+Хочу замовити два борщі на вул. Шевченка 12,create_order,merged
+Доставте мені піцу та салат на проспект Перемоги 5,create_order,merged
+Замовляю три бургери і колу на вул. Франка 3 кв. 10,create_order,merged
+Можна один борщ і вареники на Хрещатик 22,create_order,merged
+Потрібно два салати цезар на вул. Лесі Українки 7,create_order,merged
+Привезіть піцу маргарита та каву на Саксаганського 15,create_order,merged
+Хочу картоплю фрі і бургер на вул. Грушевського 9,create_order,merged
+Замовлення: 2 борщі 1 піца адреса вул. Бандери 4,create_order,merged
+Оформіть замовлення борщ салат на вул. Ковпака 11,create_order,merged
+Два борщі без цибулі на вул. Мельникова 2,create_order,merged
+Три піци на доставку вул. Січових Стрільців 18,create_order,merged
+Замовити вареники та каву на проспект Науки 30,create_order,merged
+Мені потрібен один бургер і кола на вул. Зелена 6,create_order,merged
+Доставка: борщ борщ салат на вул. Пушкінська 8,create_order,merged
+Хочу замовити їжу: 2 фрі 1 бургер вул. Липська 1,create_order,merged
+Привезіть два салати і борщ на вул. Дегтярівська 14,create_order,merged
+Замовляю піцу на вул. Антоновича 20 оплата карткою,create_order,merged
+Один борщ два вареники адреса вул. Тарасівська 5,create_order,merged
+Кур'єру: бургер кава на вул. Басейна 3,create_order,merged
+Замовлення на вечір: піца кола вул. Рейтарська 12,create_order,merged
+Дайте два борщі та піцу на вул. Садова 4,create_order,merged
+Хочу 3 бургери на вул. Володимирська 16,create_order,merged
+Замовити салат і борщ без майонезу вул. Богданівська 9,create_order,merged
+Доставте 1 піцу 2 коли на вул. Родини Косачів 11,create_order,merged
+Потрібно замовити вареники на вул. Миру 25,create_order,merged
+Оформити замовлення: борщ кава адреса проспект Гагаріна 7,create_order,merged
+Два борщі один салат на вул. Студентська 2,create_order,merged
+Замовляю їжу на вул. Героїв УПА 33,create_order,merged
+Привезіть піцу та фрі на вул. Князів Острозьких 6,create_order,merged
+Хочу борщ на вул. Інститутська 10 кв. 5,create_order,merged
+Де моє замовлення?,track_order,merged
+Статус замовлення будь ласка,track_order,merged
+Коли привезуть їжу?,track_order,merged
+Перевірте статус мого замовлення,track_order,merged
+Де кур'єр?,track_order,merged
+Скільки чекати доставку?,track_order,merged
+Моє замовлення вже в дорозі?,track_order,merged
+Який статус замовлення номер 15?,track_order,merged
+Коли буде доставка?,track_order,merged
+Де зараз моє замовлення?,track_order,merged
+Скажіть статус доставки,track_order,merged
+Чи готується моє замовлення?,track_order,merged
+Покажіть статус замовлення,track_order,merged
+Відстежити замовлення,track_order,merged
+Де їжа яку я замовив?,track_order,merged
+Коли приїде кур'єр?,track_order,merged
+Скасуйте моє замовлення,cancel_order,merged
+Хочу скасувати замовлення,cancel_order,merged
+Відміна замовлення будь ласка,cancel_order,merged
+Не потрібно вже замовлення скасувати,cancel_order,merged
+Скасувати доставку,cancel_order,merged
+Приберіть моє замовлення,cancel_order,merged
+Відмініть останнє замовлення,cancel_order,merged
+Не доставляйте скасуйте,cancel_order,merged
+Замовлення більше не актуальне скасуйте,cancel_order,merged
+Скасуй замовлення номер 7,cancel_order,merged
+Який час доставки?,faq,merged
+Які страви є в меню?,faq,merged
+Скільки коштує борщ?,faq,merged
+Чи працюєте сьогодні?,faq,merged
+Мінімальна сума замовлення?,faq,merged
+Які способи оплати?,faq,merged
+До котрої години доставляєте?,faq,merged
+Чи є безкоштовна доставка?,faq,merged
+Скільки чекати на борщ?,faq,merged
+Де ви знаходитесь?,faq,merged
+Хочу замовити борщ на вул. Грушевського 18,create_order,merged
+Доставте салат на вул. Франка 7,create_order,merged
+Хочу замовити каву на вул. Шевченка 2,create_order,merged
+Хочу замовити салат на вул. Франка 33,create_order,merged
+Хочу замовити салат на вул. Грушевського 35,create_order,merged
+Привезіть салат на вул. Саксаганського 38 кв. 38,create_order,merged
+Замовляю борщ на проспект Лесі Українки 11,create_order,merged
+Привезіть вареники на вул. Хрещатик 10 кв. 10,create_order,merged
+Доставте вареники на вул. Шевченка 6,create_order,merged
+Привезіть два борщі на вул. Хрещатик 23 кв. 23,create_order,merged
+Замовляю борщ на проспект Грушевського 30,create_order,merged
+Хочу замовити каву на вул. Шевченка 36,create_order,merged
+Замовляю вареники на проспект Бандери 13,create_order,merged
+Хочу замовити борщ на вул. Грушевського 15,create_order,merged
+Замовляю два борщі на проспект Лесі Українки 15,create_order,merged
+Хочу замовити каву на вул. Хрещатик 30,create_order,merged
+Замовляю піцу на проспект Хрещатик 23,create_order,merged
+Доставте бургер на вул. Грушевського 5,create_order,merged
+Доставте салат на вул. Франка 30,create_order,merged
+Привезіть бургер на вул. Грушевського 36 кв. 36,create_order,merged
+Доставте вареники на вул. Лесі Українки 4,create_order,merged
+Доставте борщ на вул. Лесі Українки 21,create_order,merged
+Привезіть бургер на вул. Шевченка 14 кв. 14,create_order,merged
+Замовляю салат на проспект Грушевського 32,create_order,merged
+Привезіть колу на вул. Франка 17 кв. 17,create_order,merged
+Доставте салат на вул. Грушевського 36,create_order,merged
+Замовляю каву на проспект Бандери 26,create_order,merged
+Замовляю салат на проспект Франка 33,create_order,merged
+Привезіть два борщі на вул. Лесі Українки 4 кв. 4,create_order,merged
+Хочу замовити піцу на вул. Грушевського 11,create_order,merged
+Привезіть два борщі на вул. Саксаганського 25 кв. 25,create_order,merged
+Привезіть бургер на вул. Бандери 1 кв. 1,create_order,merged
+Хочу замовити бургер на вул. Лесі Українки 22,create_order,merged
+Хочу замовити бургер на вул. Саксаганського 11,create_order,merged
+Привезіть борщ на вул. Грушевського 17 кв. 17,create_order,merged
+Доставте два борщі на вул. Лесі Українки 20,create_order,merged
+Доставте піцу на вул. Хрещатик 11,create_order,merged
+Хочу замовити вареники на вул. Саксаганського 2,create_order,merged
+Хочу замовити вареники на вул. Лесі Українки 20,create_order,merged
+Доставте борщ на вул. Франка 37,create_order,merged
+Статус замовлення,track_order,merged
+Коли привезуть?,track_order,merged
+Скасуйте замовлення,cancel_order,merged
+Відміна замовлення,cancel_order,merged
+Не потрібно доставляти скасуйте,cancel_order,merged
+Скільки коштує доставка?,faq,merged
+Який час роботи?,faq,merged
+Які страви в меню?,faq,merged
+I want two burgers and a coke delivered to 12 Main Street,create_order,merged
+Can I get a large pizza margherita and fries please,create_order,merged
+Order one caesar salad and espresso to 5 Oak Avenue apt 3,create_order,merged
+Please deliver 2 soups and chicken wings to 88 River Road,create_order,merged
+I'd like a burrito and latte cash on delivery,create_order,merged
+Get me three tacos and a cola to 14 Park Lane,create_order,merged
+Send one burger no onions and fries to 22 Baker Street,create_order,merged
+I need 2 pizzas and garlic bread deliver to 7 Hill Street,create_order,merged
+Add a sushi roll and miso soup to my order at 30 Lake View,create_order,merged
+One pasta carbonara and sparkling water 19 Green Street,create_order,merged
+Deliver two coffees and a croissant to downtown 45 West End,create_order,merged
+I want vegan burger with salad to 3 Maple Drive,create_order,merged
+Place an order: chicken burger fries coke address 10 High Street,create_order,merged
+Could you bring me pad thai and spring rolls 6 King Road,create_order,merged
+Two pepperoni pizzas extra cheese 100 Main St card payment,create_order,merged
+Where is my order?,track_order,merged
+What is the status of my delivery?,track_order,merged
+When will my food arrive?,track_order,merged
+Track my order please,track_order,merged
+Is the courier on the way?,track_order,merged
+Has my pizza been shipped yet?,track_order,merged
+Cancel my order,cancel_order,merged
+I want to cancel the delivery,cancel_order,merged
+Please cancel order number 42,cancel_order,merged
+Stop my food order,cancel_order,merged
+Do not deliver anymore cancel it,cancel_order,merged
+What is on the menu?,faq,merged
+How much does the burger cost?,faq,merged
+Do you deliver after 10 pm?,faq,merged
+What payment methods do you accept?,faq,merged
+Is there a minimum order amount?,faq,merged
+How long does delivery take?,faq,merged
+Are you open today?,faq,merged
+Do you have gluten free options?,faq,merged
+"i'd like to make a reservation at rooth chris, can you do that",faq,merged
+make a reservation for chik-fil-a at 3 o' clock please,faq,merged
+reserve a table for 3 at 7 for olive garden,faq,merged
+will you reserve a table at olive garden for 3 people at 7,faq,merged
+"at 7, i need a table for 3 at olive garden",faq,merged
+i need a table for 3 at olive garden for 7,faq,merged
+get a table for me at 7 for 3 people at olive garden,faq,merged
+reserve table for 5 at red robin under the name sara at 3,faq,merged
+reverse a table for 5 at burger king under the name sara at 6,faq,merged
+can you reserve a table for 6 at red robin under the name mavrick at 5 clock,faq,merged
+could you reserve table for 3 at carlos jr under the name adam at 4,faq,merged
+i want to reserve table for 5 at red robin under the name sara at 5,faq,merged
+i need a table for two at the havana at nine,faq,merged
+look for me a table at carl's cabin for twelve at eight,faq,merged
+i need a table at gemma for nine at two,faq,merged
+book me a table for three at rainforest cafe at seven,faq,merged
+get me a table for five at itta bena at three,faq,merged
+"5 people are going to be at tropicana by 8pm, reserve the table under martins name please",faq,merged
+use martins name to reserve a table at tropicana for 5 people at 8pm,faq,merged
+reserve a table at tropicana for 5 people under the name martins for 8pm,faq,merged
+martins needs a table for 5 people at tropicana at 8pm precisely,faq,merged
+the table should be reserved at 8pm at tropicana using martins name and it should be for 5 people,faq,merged
+are there any open reservations at outback tonight,faq,merged
+make a reservation for 2 tonight at 7:00 at outback steakhouse,faq,merged
+michael will reserve a table for two at 7:00pm for olive garden,faq,merged
+a table for two needs to be reserved for 7:00pm at olive garden using the name michael,faq,merged
+please reserve a table for two at olive garden at 7:00pm for michael,faq,merged
+get reservations at olive garden for two at 7:00pm under michael,faq,merged
+reservations for two need to be made using michael's name for 7:00pm at olive garden,faq,merged
+i want to eat at seven in the restaurant for two people,faq,merged
+tell me nutritional info for brocoli,faq,merged
+tell me nutritional info for lettuce,faq,merged
+tell me nutritional info for fish,faq,merged
+tell me nutritional info for burger,faq,merged
+tell me nutritional info for beans,faq,merged
+how healthy is blueberrys,faq,merged
+how healthy is tacos,faq,merged
+how healthy is mcdonalds,faq,merged
+how healthy is a cheeseburger,faq,merged
+how healthy is rice,faq,merged
+find the nutrition info for whole milk for me,faq,merged
+what are the nutrition facts for greek yogurt,faq,merged
+find the nutrition info for ketchup for me,faq,merged
+what are the nutrition facts for cucumbers,faq,merged
+what are the nutrition facts for apple sauce,faq,merged
+what are the nutrition facts for peanut butter,faq,merged
+find the nutrition info for bell peppers for me,faq,merged
+find the nutrition info for cheese fries for me,faq,merged
+find the nutrition info for cucumbers for me,faq,merged
+what are the nutrition facts for carrots,faq,merged
+please give me the nutritional information for an egg,faq,merged
+what's the nutrition info for a pound of chicken,faq,merged
+tell me the nutrition info for a cup of milk,faq,merged
+what's the nutrition info for a cucumber,faq,merged
+give me the nutritional details for a cup of yogurt,faq,merged
+i need the nutrition facts for ramen,faq,merged
+tell me the nutrition facts for shepherd's pie,faq,merged
+i would like nutrition facts for spaghetti carbonara,faq,merged
+tell me spaghetti bolognese's nutrition facts,faq,merged
+i want the nutrition facts for buttered spaghetti,faq,merged
+number of calories in coke,faq,merged
+what kind of calories do chicken tenders have,faq,merged
+calorie content of dr pepper,faq,merged
+what's the calorie content of chicken nuggets,faq,merged
+how many calories are in hamburgers,faq,merged
+what is the calorie count for this milkshake,faq,merged
+how many calories does an orange have,faq,merged
+what is the total number of calories in this pizza,faq,merged
+how many calories are in a burger,faq,merged
+rolls have how many calories,faq,merged
+what is the calorie content in bananas,faq,merged
+what is the calorie content in peanut butter,faq,merged
+what is the calorie content in french fries,faq,merged
+what is the calorie content in potatoes,faq,merged
+what is the calorie content in spaghetti,faq,merged
+i need to know the calorie content of spaghetti,faq,merged
+how many calories are in a sandwich,faq,merged
+what number of calories are in a pizza,faq,merged
+what is the number of calories in a steak,faq,merged
+how many calories are in a cheeseburger,faq,merged
+can you check the amount of calories in a chicken sandwich,faq,merged
+what is the calorie count of a burrito,faq,merged
+"calorie check, cheese burger",faq,merged
+how many calories are in a taco,faq,merged
+can you see how many calories are in cream of mushroom soup,faq,merged
+the intake of calories it it bad,faq,merged
+how much is alorie intake,faq,merged
+hoq many calories does pasta have,faq,merged
+how many calories can i expect to be in fries,faq,merged
+what's the calorie content of french fries,faq,merged
+does applebees have good reviews,faq,merged
+are the reviews ned get's good,faq,merged
+is the review ned's have good,faq,merged
+are ned's reviews good,faq,merged
+are the reviews for ned's good,faq,merged
+how are the reviews for tacos at the buffet,faq,merged
+do they serve good tacos at the buffet,faq,merged
+"my favorite, beef tacos at the buffet",faq,merged
+they sold out of tacos at the buffet,faq,merged
+"yum, pulled pork tacos at the buffet",faq,merged
+what do people think of the new burger at mcdonalds,faq,merged
+how are the reviews for the supreme pizza at papa john's,faq,merged
+what are people saying about chick-fil-a's chicken nuggets,faq,merged
+show me the reviews for the new jalapeno fries at taco bell,faq,merged
+give me some feedback about the pasta at piada please,faq,merged
+how is gramercy tavern rated,faq,merged
+how many stars does babbo have,faq,merged
+does cielo have good reviews,faq,merged
+do people say per se is any good or not,faq,merged
+what do food critics say about gramercy tavern,faq,merged
+what are the reviews like for l'auberge aubergine,faq,merged
+how many stars does brasserie les halles have,faq,merged
+what rating do the critics give the french laundry,faq,merged
+does acero have good or bad ratings,faq,merged
+has the french laundry gotten good reviews lately,faq,merged
+what kind of reviews does the olive garden have,faq,merged
+what's the average review for olive garden,faq,merged
+oliver garden reviews,faq,merged
+does olive garden have good customer reviews,faq,merged
+does olive garden have good reviews,faq,merged
+where is my order now,track_order,merged
+tell me all updates about my order's status,track_order,merged
+is my order on its way or what's going on,track_order,merged
+how is my order doing right now,track_order,merged
+locate my package,track_order,merged
+can you monitor my package's progress,track_order,merged
+track my order,track_order,merged
+tell me where my package is currently,track_order,merged
+where is my package en route,track_order,merged
+give me the status of my order,track_order,merged
+when will i get my order,track_order,merged
+tell me where my order is,track_order,merged
+what is the status of the order i placed with you yesterday,track_order,merged
+what's the updated status of my order,track_order,merged
+can you help with delivery tracking,track_order,merged
+i need a delivery tracked,track_order,merged
+i need to track my order,track_order,merged
+i placed an order and i need it tracked,track_order,merged
+could you track an order for me,track_order,merged
+has my package been sent,track_order,merged
+what time is my package getting here,track_order,merged
+how's my amazon order doing,track_order,merged
+i need to track a package,track_order,merged
+i want to track a package i should be getting,track_order,merged
+please track my order,track_order,merged
+can you tell me when my item will get here,track_order,merged
+can you tell me where my item is,track_order,merged
+what's up with my order,track_order,merged
+are they any updates on my order,track_order,merged
+i need to track the status of my order,track_order,merged
+can you find my package in transit,track_order,merged
+track my package please,track_order,merged
+help me find my package,track_order,merged
+i need to track my package,track_order,merged
+what's going on with my order,track_order,merged
+can you see where my package is,track_order,merged
+do you know anything about the status of my order,track_order,merged
+can you check if my order has been delivered,track_order,merged
+are you able to figure out where my package is,track_order,merged
+order status,track_order,merged
+is my order being delivered soon,track_order,merged
+where's my package,track_order,merged
+do you know where my package is,track_order,merged
+"check status on my deliver, has it been delivered",track_order,merged
+is my order shown as delivered,track_order,merged
+did my order ship,track_order,merged
+can you tell where my package is,track_order,merged
+is my package able to be tracked by you,track_order,merged
+can you find my package,track_order,merged
+can you locate my package,track_order,merged
+are you able to tack my package,track_order,merged
+has my online order shipped yet,track_order,merged
+i need to know what the most recent update is on the status of my online purchase,track_order,merged
+look up the status of the order i placed online,track_order,merged
+check to see the status of my recent online order,track_order,merged
+find out the status of my most recent online purchase,track_order,merged
+"i ordered some curtains off amazon, can you tell me if it's been shipped yet",track_order,merged
+what's the status of my order,track_order,merged
+can you check on the status of my orders at amazon,track_order,merged
+can you tell me what the status of my last amazon order is,track_order,merged
+can you tell me if my last amazon order is coming today,track_order,merged
+show me tracking on my order,track_order,merged
+what is the status of my order,track_order,merged
+can you update me on my last amazon orders,track_order,merged
+"i just placed my order today, what is the status of it",track_order,merged
+can i please get the status my order,track_order,merged
+my order was put in and i was wonder how i can see the status of it,track_order,merged
+i submitted my order is there any updates on it yet,track_order,merged
+"hey, i just put in my order and i was wondering what the status of it",track_order,merged
+what's the current location of my package,track_order,merged
+has my ordered arrived,track_order,merged
+when will my package arrive,track_order,merged
+can you see if my order was delivered,track_order,merged
+did my order ever get distributed today,track_order,merged
+where was my package last at,track_order,merged
+can you help me find my package,track_order,merged
+was my order dropped off,track_order,merged
+where's my package right now,track_order,merged
+would you track my package,track_order,merged
+please track my package,track_order,merged
+track my package now please,track_order,merged
+could you please track my package,track_order,merged
+i need you to track my package,track_order,merged
+what is the status of my online order,track_order,merged
+what's the status of the order i placed online last week with target,track_order,merged
+please tell me the status of my last online order from walmart,track_order,merged
+"can i still make changes to my order, or has it already been shipped",track_order,merged
+i need an update on my online order from nespresso,track_order,merged
+when can i expect to receive the order,track_order,merged
+has my order been shipped,track_order,merged
+can you give me a status update on my online order from amazon,track_order,merged
+what is the status of my online order of coffee pods,track_order,merged
+what is the status of my recent order,track_order,merged
+can you please check on the status of my online order,track_order,merged
+check up on the status of my online order,track_order,merged
+online order: status,track_order,merged
+check on the status of my order,track_order,merged
+where is my order,track_order,merged
+is my order here yet,track_order,merged
+when will my order be delivered,track_order,merged
+check the status of my order,track_order,merged
+show me where my order is,track_order,merged
+has my order been shipped yet,track_order,merged
+can you check to see if my order has been delivered,track_order,merged
+"could you check to see if my order has been delivered, please",track_order,merged
+"can you check to see if my order has been delivered, please",track_order,merged
+"could you check if my order has been delivered, please",track_order,merged
+could you check to see if my order has been delivered,track_order,merged
+has the order that i placed arrived,track_order,merged
+is my order already here,track_order,merged
+is my order due yet,track_order,merged
+is the packaged delivered already,track_order,merged
+has my order arrived yet,track_order,merged
+how soon will me package arrive,track_order,merged
+when can i expect my order,track_order,merged
+check order number,track_order,merged
+"track package, please",track_order,merged
+are you able to track my package,track_order,merged
+track my package,track_order,merged
+what is the tracking on my package,track_order,merged
+stop what you're doing,cancel_order,merged
+this process needs to stop,cancel_order,merged
+stop this process,cancel_order,merged
+"that was a mistake, undo that",cancel_order,merged
+ignore the previous command,cancel_order,merged
+forget what i told you to do,cancel_order,merged
+please cancel the last input,cancel_order,merged
+please stop the current process,cancel_order,merged
+can you end the current process,cancel_order,merged
+just stop talking,cancel_order,merged
+please stop talking,cancel_order,merged
+"stop, just stop",cancel_order,merged
+you can stop talking ai,cancel_order,merged
+stop the process,cancel_order,merged
+can you turn off the process,cancel_order,merged
+stop talking,cancel_order,merged
+you can cancel the task,cancel_order,merged
+can you cancel that,cancel_order,merged
+can you cancel that request,cancel_order,merged
+"could you cancel that request, please",cancel_order,merged
+"can you cancel that request, please",cancel_order,merged
+"can you cancel that, please",cancel_order,merged
+hush,cancel_order,merged
+be quiet,cancel_order,merged
+stop it now!,cancel_order,merged
+stop talking you are annoying,cancel_order,merged
+you need to shut it,cancel_order,merged
+stop processing,cancel_order,merged
+abort mission,cancel_order,merged
+stop speaking,cancel_order,merged
+i do not actually need my reservation anymore,cancel_order,merged
+i need to cancel my reservation for rob at red robin,cancel_order,merged
+cancel my reservation for bob at red robin,cancel_order,merged
+i do not want my reservation anymore,cancel_order,merged
+i need you to cancel my reservation for 5 at red robin,cancel_order,merged
+please cancel my reservation for tim at jb's,cancel_order,merged
+i gotta cancel my reservation for barry at red robin,cancel_order,merged
+i don't need the reservation anymore,cancel_order,merged
+i want you to cancel my reservation for 5 at red robin,cancel_order,merged
+i am not in need of my reservation anymore,cancel_order,merged
+go ahead and cancel my reservation for 5 at red robin,cancel_order,merged
+i wish to cancel my reservation for fred at red robin,cancel_order,merged
+i no longer want my reservation anymore,cancel_order,merged
+please cancel my reservation for 5 at red robin,cancel_order,merged
+i need you to cancel my reservation for smith at the williams diner,cancel_order,merged
+i want a cancellation of the dinner reservation for phillips at bernardin's,cancel_order,merged
+please delete the reservation for roberts at village tavern,cancel_order,merged
+could you cancel my reservation for winters at the palace tonight,cancel_order,merged
+i would like you to cancel the dinner reservation for williams at the palace tonight,cancel_order,merged
+i have to cancel my reservation after all,cancel_order,merged
+"cancel my reservation for dinner tonight, please",cancel_order,merged
+i need to cancel my reservation after all,cancel_order,merged
+"i have to cancel my reservation after all, please",cancel_order,merged
+"cancel my reservation for dinner this saturday, please",cancel_order,merged
+"cancel my reservation for dinner this friday, please",cancel_order,merged
+cancel my reservation for dinner this saturday,cancel_order,merged
+cancel my reservation for dinner tonight,cancel_order,merged
+i have to cancel my reservation,cancel_order,merged
+"i need to cancel my reservation after all, please",cancel_order,merged
+i need my dinner reservation canceled,cancel_order,merged
+"please cancel what you are doing, i've changed my mind",cancel_order,merged
+"never mind, cancel that",cancel_order,merged
+"stop working on it, i need something else",cancel_order,merged
+"cancel my last request, i know the answer",cancel_order,merged
+"forget it, i do not need it anymore",cancel_order,merged
+pause,cancel_order,merged
+cancel that last thing,cancel_order,merged
+silence,cancel_order,merged
+quit,cancel_order,merged
+mute,cancel_order,merged
+stop,cancel_order,merged
+stop and go back,cancel_order,merged
+ai stop talking,cancel_order,merged
+quiet now,cancel_order,merged
+shhhh,cancel_order,merged
+how do i make you stop talking,cancel_order,merged
+can you be quiet please,cancel_order,merged
+please stop doing what i asked,cancel_order,merged
+please be quiet,cancel_order,merged
+i would like you to stop what you were doing,cancel_order,merged
+please cancel that last command,cancel_order,merged
+can you cancel what you were doing,cancel_order,merged
+can you cancel,cancel_order,merged
+shut up!,cancel_order,merged
+i need you to stop talking now,cancel_order,merged
+i want you to quit the action,cancel_order,merged
+discontinue please,cancel_order,merged
+i don't want you to speak any more for now,cancel_order,merged
+discontinue your current task,cancel_order,merged
+abort please,cancel_order,merged
+quit the current action please,cancel_order,merged
+forget my previous command,cancel_order,merged
+abort the current action,cancel_order,merged
+actually forget that i don't need it,cancel_order,merged
+quit what you are doing,cancel_order,merged
+"sorry, you can actually stop that",cancel_order,merged
+"i actually don't want this anymore, please abort",cancel_order,merged
+please cancel your present task,cancel_order,merged
+"that's enough, don't say anymore please",cancel_order,merged
+i want you to stop your present action,cancel_order,merged
+stop talking please,cancel_order,merged
+"what you are doing is not actually helpful, please cancel the action",cancel_order,merged
+please stop,cancel_order,merged
+cancel action,cancel_order,merged
+please cancel the input,cancel_order,merged
+"ai, stop talking",cancel_order,merged
+"ai, shut up",cancel_order,merged
+"ai, stop!",cancel_order,merged
+please be quiet now,cancel_order,merged
+terminate,cancel_order,merged
+negate last command,cancel_order,merged
+halt,cancel_order,merged
+would you stop talking please,cancel_order,merged
+please abandon the current job,cancel_order,merged
+please abort the current task,cancel_order,merged
+terminate current process,cancel_order,merged
+i want you to cancel the current action,cancel_order,merged
+abort,cancel_order,merged
+please stop doing that,cancel_order,merged
+abort running program,cancel_order,merged
+"alexa, buy a new television",create_order,merged
+place my order alexa,create_order,merged
+"siri, place my amazon order",create_order,merged
+"alexa, buy my grocery list",create_order,merged
+purchase grass seed from the store,create_order,merged
+find inner tube and buy it for me,create_order,merged
+can you order me some nacho chips,create_order,merged
+i'd like to buy something,create_order,merged
+"i need to buy something, please",create_order,merged
+i'd like to buy a lamp online,create_order,merged
+order all items on my shopping list,create_order,merged
+get me an order of creatine powder,create_order,merged
+place an order for my whole shopping list,create_order,merged
+"order me some doritos, please",create_order,merged
+place an order for my entire shopping list,create_order,merged
+can you buy something,create_order,merged
+make a purchase of doritos,create_order,merged
+i'd like to you order everything that's on my shopping list,create_order,merged
+please buy me something,create_order,merged
+order my whole shopping list,create_order,merged
+can you order some more eggs for me since i just ran out,create_order,merged
+i've used the last can of tuna fish and need you to order a new case of it,create_order,merged
+i've just run out of butter and need you to order me some more,create_order,merged
+i'm out of milk so you will order me some more,create_order,merged
+can you place an order for the olive oil i just finished,create_order,merged
+please go on amazon so i can buy bluetooth speakers,create_order,merged
+will you please go on amazon so i can buy speakers,create_order,merged
+where can i find bluetooth speakers,create_order,merged
+what is the price of bluetooth speakers on amazon,create_order,merged
+please order some more pepsi,create_order,merged
+can you please order me more plastic bags,create_order,merged
+"i need you to order some more lysol for me,please",create_order,merged
+"i need some more lysol, could you order me some",create_order,merged
+i'm out of lysol could you order me some,create_order,merged
+could you please reorder me some lysol,create_order,merged
+will you order me some more lysol spray,create_order,merged
+order everything that's on my list for shopping,create_order,merged
+i want my entire shopping list ordered,create_order,merged
+i want to buy something,create_order,merged
+get my entire shopping list ordered,create_order,merged
+i want to make a purchase,create_order,merged
+take my shopping list and order all,create_order,merged
+send the order for my entire shopping list,create_order,merged
+add everything to my shopping cart,create_order,merged
+submit order for everything,create_order,merged
+buy everything on my list,create_order,merged
+please order everything you see on my shopping list,create_order,merged
+go shopping and order everything on the list,create_order,merged
+are you able to get my shopping list and order everything on it,create_order,merged
+could you get everything on my shopping list,create_order,merged
+i need everything ordered on my shopping list,create_order,merged
+can you buy me a toy car,create_order,merged
+i'd like to have everything on my shopping list,create_order,merged
+i do not have cookies so will you order me some more,create_order,merged
+get everything on my shopping list,create_order,merged
+i wanna buy a pair of shoes online now,create_order,merged
+i do not have flour so will you order me some more,create_order,merged
+i need everything on my shopping list,create_order,merged
+i do not have pizza so will you order me some more,create_order,merged
+i want everything on my shopping list,create_order,merged
+i don't have ice cream so will you order me some more,create_order,merged
+i am out of ice cream so will you order me some more,create_order,merged
+please get everything on my shopping list,create_order,merged
+i need you to order all the things on my shopping list,create_order,merged
+i want everything on my shopping list to be ordered,create_order,merged
+please order me everything that is on my shopping list,create_order,merged
+would you buy me a phone,create_order,merged
+i would like everything on my shopping list ordered,create_order,merged
+i would like you to buy me some paper plates,create_order,merged
+i'd like you to purchase me canned soup,create_order,merged
+i need you to buy a mouse for me,create_order,merged
+purchase a computer for me,create_order,merged
+i would like all of these things on my shopping list ordered,create_order,merged
+put in the order for everything on my shopping list,create_order,merged
+"please order some more cat food, i'm out",create_order,merged
+i'm ready to put in the order for everything on my shopping list,create_order,merged
+go ahead and order everything on my shoping list,create_order,merged
+"i need more cat food, please order some",create_order,merged
+"i'm out of cat food, order more",create_order,merged
+will you buy me underpants,create_order,merged
+"order some cat for me, i ran out",create_order,merged
+"order more cat food, i'm out",create_order,merged
+are you able to purchase underpants for me,create_order,merged
+can you go to amazon a repurchase my last purchase,create_order,merged
+please order me a 7lb bag of world's best cat litter from targetcom,create_order,merged
+submit the order for everything on my shopping list,create_order,merged
+can you buy something from walmartcom for me,create_order,merged
+can you purchase underpants for me,create_order,merged
+can you order underpants for me,create_order,merged
+can you order everything on my shopping list,create_order,merged
+i'm out of detergent so will you order me some more,create_order,merged
+i'm out of fabric softener so will you order me some more,create_order,merged
+i'm out of soap so will you order me some more,create_order,merged
+i'm out of toothpaste so will you order me some more,create_order,merged
+i'm out of razors so will you order me some more,create_order,merged
+i just used up my toothpaste and need you to order more,create_order,merged
+i'm making a purchase and need the help of ai,create_order,merged
+can you order more chapstick i am all out,create_order,merged
+i am currently out of q tips and need more ordered right away,create_order,merged
+can you order more printer paper,create_order,merged
+ran out of tissues and need you to put an order in for more asap,create_order,merged
+i need you to buy a laptop,create_order,merged
+i'd like to buy some cooking pans,create_order,merged
+i'd like to have everything on the shopping list,create_order,merged
+please buy me flowers,create_order,merged
+buy all the things on the shopping list,create_order,merged
+i want all the things on the shopping list,create_order,merged
+i need to buy everything on the shopping list,create_order,merged
+purchase me dog food,create_order,merged
+purchase all the things on my shopping list,create_order,merged
+i'm short on flour so place an order for me,create_order,merged
+i'm low on mouthwash so create an order for me,create_order,merged
+i'm lacking vitamins so order me more,create_order,merged
+i need more candy so could you order me a pack,create_order,merged
+i require another filter so can you order me another one,create_order,merged
+i'm out of shampoo so will you order me some more,create_order,merged
+i'm out of paper plates so will you order me some more,create_order,merged
+i'm out of conditioner so will you order me some more,create_order,merged
+i'm out of paper towels so will you order me some more,create_order,merged
+i need a replacement phone charger ordered online,create_order,merged

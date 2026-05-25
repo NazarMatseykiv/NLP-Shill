@@ -1,0 +1,34 @@
+{
+  "task": "Intent classification (4 classes)",
+  "input": "Текст повідомлення клієнта (UA/EN)",
+  "model_type": "linear_svc",
+  "features": "combined",
+  "classes": [
+    "create_order",
+    "track_order",
+    "cancel_order",
+    "faq"
+  ],
+  "metrics": {
+    "accuracy": 0.9689922480620154,
+    "f1_macro": 0.9662626393570133,
+    "train_size": 514,
+    "test_size": 129
+  },
+  "hyperparameters": {
+    "tuned_at": "2026-05-22T00:02:18",
+    "model_name": "linear_svc",
+    "feature_set": "combined",
+    "best_params": {
+      "clf__C": 0.5
+    },
+    "best_cv_f1_macro": 0.9517280327548949
+  },
+  "baseline_comparison": {
+    "model": "linear_svc",
+    "feature_set": "combined",
+    "cv_f1_macro_mean": 0.9500337241411572,
+    "test_f1_macro": 0.9662626393570133
+  },
+  "artifact_size_kb": 348.34
+}

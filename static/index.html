@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shill — прийом замовлень</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="logo">S</span>
+        <div>
+          <strong>Shill</strong>
+          <span>Панель оператора</span>
+        </div>
+      </div>
+      <nav class="nav" id="nav">
+        <a class="nav-item active" href="#" data-page="orders">Прийом замовлень</a>
+        <a class="nav-item" href="#" data-page="deliveries">Активні доставки</a>
+        <a class="nav-item" href="#" data-page="menu">Меню</a>
+      </nav>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div>
+          <h1 id="page-title">Прийом замовлень</h1>
+          <p class="lead" id="page-lead">Введіть повідомлення клієнта — система розпізнає тип звернення та склад замовлення</p>
+        </div>
+        <div id="health" class="status-pill">Перевірка…</div>
+      </header>
+
+      <!-- Прийом замовлень -->
+      <div class="content page-view" id="page-orders">
+        <section class="card">
+          <div class="card-head">
+            <h2>Повідомлення клієнта</h2>
+            <span class="hint">Ctrl+Enter — обробити</span>
+          </div>
+          <textarea id="input" rows="4" placeholder="Наприклад: потрібно два борщі та піца на вул. Шевченка 12, оплата карткою"></textarea>
+          <div class="actions">
+            <button id="analyze" class="btn primary">Обробити</button>
+            <button id="clear" class="btn secondary">Очистити</button>
+          </div>
+          <div class="quick">
+            <span>Швидкі приклади</span>
+            <div id="chips" class="chips"></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2>Результат обробки</h2>
+          </div>
+          <div id="empty" class="empty">
+            <p>Тут з’явиться розпізнане замовлення або тип звернення після обробки тексту.</p>
+          </div>
+          <div id="result" class="result hidden">
+            <div class="result-top">
+              <span id="intent-badge" class="type-badge">—</span>
+              <span id="confidence" class="score"></span>
+            </div>
+            <p id="summary" class="summary"></p>
+            <div class="progress">
+              <div id="conf-bar" class="progress-fill"></div>
+            </div>
+
+            <div id="order-block" class="order-block hidden">
+              <h3>Деталі замовлення</h3>
+              <div class="info-grid" id="meta-grid"></div>
+              <table class="order-table">
+                <thead>
+                  <tr>
+                    <th>Позиція</th>
+                    <th>Кількість</th>
+                    <th>Примітка</th>
+                  </tr>
+                </thead>
+                <tbody id="order-body"></tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="2">Усього порцій</td>
+                    <td id="order-total">0</td>
+                  </tr>
+                </tfoot>
+              </table>
+              <button type="button" id="confirm-order" class="btn primary btn-block hidden">Підтвердити та відправити в доставку</button>
+            </div>
+
+            <div id="notice-block" class="notice hidden"></div>
+
+            <details class="tech-details">
+              <summary>Деталі для системи</summary>
+              <pre id="json-out"></pre>
+            </details>
+          </div>
+        </section>
+      </div>
+
+      <!-- Активні доставки -->
+      <div class="content page-view hidden" id="page-deliveries">
+        <section class="card card-wide">
+          <div class="card-head">
+            <h2>Замовлення в роботі</h2>
+            <span class="hint" id="deliveries-count">0 замовлень</span>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="deliveries-table">
+              <thead>
+                <tr>
+                  <th>№</th>
+                  <th>Клієнт</th>
+                  <th>Адреса</th>
+                  <th>Склад</th>
+                  <th>Статус</th>
+                  <th>Кур'єр</th>
+                  <th>Очікувано</th>
+                </tr>
+              </thead>
+              <tbody id="deliveries-body"></tbody>
+            </table>
+          </div>
+          <p id="deliveries-empty" class="empty-inline hidden">Немає активних доставок. Підтвердіть замовлення на вкладці «Прийом замовлень».</p>
+        </section>
+      </div>
+
+      <!-- Меню -->
+      <div class="content page-view hidden" id="page-menu">
+        <section class="card card-wide">
+          <div class="card-head">
+            <h2>Каталог страв</h2>
+            <input type="search" id="menu-search" class="search" placeholder="Пошук по назві…" />
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="menu-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Назва</th>
+                  <th>Ціна</th>
+                  <th>Доступність</th>
+                </tr>
+              </thead>
+              <tbody id="menu-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <footer class="page-footer">
+        <span>Shill · внутрішня панель</span>
+        <span id="clock"></span>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
