@@ -38,8 +38,8 @@ class AnalyzeRequest(BaseModel):
 
 
 EXAMPLES = [
-    {"label": "Нове замовлення", "text": "Два борщі та піцу на вул. Шевченка 12, карткою"},
-    {"label": "Англійською", "text": "Two burgers and fries to 12 Main Street, card please"},
+    {"label": "Нове замовлення", "text": "Два салати та 3 піци на вул. Шевченка 12, карткою"},
+    {"label": "Англійською", "text": "Two burgers and 1 fries to 12 Groove Street, cash"},
     {"label": "Статус", "text": "Де моє замовлення, коли привезуть?"},
     {"label": "Скасувати", "text": "Скасуйте замовлення, будь ласка"},
     {"label": "Питання", "text": "Що є в меню і скільки коштує доставка?"},
