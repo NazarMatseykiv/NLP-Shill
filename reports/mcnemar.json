@@ -1,0 +1,11 @@
+{
+  "best": "svc_char",
+  "mcnemar_p_vs_best": {
+    "rules": 2.8275097194707317e-20,
+    "svc_word": 0.21532714972272515,
+    "svc_combined": 0.3876953125,
+    "logreg_combined": 0.75390625,
+    "cnb_combined": 0.237884521484375,
+    "rf_combined": 5.539621596994947e-06
+  }
+}

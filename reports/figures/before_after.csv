@@ -1,0 +1,5 @@
+dataset,n_rows,model,own_split_protocol,own_test_f1,ood_f1_macro,ood_accuracy
+оригінал,628,linear_svc,випадковий стратифікований,0.9651,0.8146,0.814
+оригінал,628,logistic_regression,випадковий стратифікований,0.9648,0.802,0.8023
+розширений,2786,linear_svc,за групами шаблонів,0.8779,0.9654,0.9651
+розширений,2786,logistic_regression,за групами шаблонів,0.8678,0.9767,0.9767

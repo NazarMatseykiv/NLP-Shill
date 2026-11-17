@@ -1,0 +1,15 @@
+model,lang,n,f1_macro
+rules,UA,298,0.6948
+rules,EN,260,0.5441
+svc_word,UA,298,0.8356
+svc_word,EN,260,0.8679
+svc_char,UA,298,0.8807
+svc_char,EN,260,0.8502
+svc_combined,UA,298,0.8787
+svc_combined,EN,260,0.8687
+logreg_combined,UA,298,0.8812
+logreg_combined,EN,260,0.844
+cnb_combined,UA,298,0.8834
+cnb_combined,EN,260,0.8782
+rf_combined,UA,298,0.8403
+rf_combined,EN,260,0.769

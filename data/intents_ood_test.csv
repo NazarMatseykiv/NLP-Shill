@@ -1,0 +1,87 @@
+text,intent,lang
+"Привіт, а можна мені сьогодні вдома спробувати вашу шаурму? Руська 22, кв 9",create_order,UA
+"дві піци маргарита і колу, Головна 10, плачу готівкою",create_order,UA
+"Мені б вечерю на двох, щось із м'ясом, привезіть до офісу на Франка 4",create_order,UA
+"Оформіть, будь ласка, борщ із пампушками та сирники, оплата при отриманні",create_order,UA
+"Беру лате і тірамісу, доставка на Незалежності 15",create_order,UA
+Можете привезти обід на 13:00 на Кобилянської 7? Одну пасту і салат,create_order,UA
+"замовляю суші сет на компанію, карта, вул. Соборна 3",create_order,UA
+"Хотів би замовити вареники з картоплею, дві порції, Герцена 8",create_order,UA
+"Давай шаурму одну і колу, на Руську 14, кеш",create_order,UA
+"Нам на роботу три бургери і картоплю, Хотинська 40, офіс 2",create_order,UA
+"Hey, could I get two cheeseburgers and a large fries sent over to 45 Elm Road?",create_order,EN
+"I'll take a margherita and a cola, paying cash at the door",create_order,EN
+Dinner for two delivered to my office at 9 Oak Lane please,create_order,EN
+pls send 1 shawarma + lemonade to 7 river st,create_order,EN
+Can you bring me a latte and a slice of tiramisu? Card payment.,create_order,EN
+"Привіт, one pizza pepperoni будь ласка на Шевченка 5",create_order,MIX
+"Замов мені burger and fries, карткою",create_order,MIX
+"Хочу order на two coffees, Свободи 12",create_order,MIX
+khochu zamovyty pitsu na holovnu 12,create_order,TRANSLIT
+dva borshchi na ruska 3 kartkoiu,create_order,TRANSLIT
+"Я вже майже годину чекаю, а їжі все нема. Що там?",track_order,UA
+"Скажіть, будь ласка, кур'єр уже їде до мене?",track_order,UA
+"Замовлення SH-1042 ще не доставили, перевірте",track_order,UA
+Скільки хвилин залишилось до приїзду кур'єра?,track_order,UA
+"Ало, де мій борщ?",track_order,UA
+"Підкажіть статус мого замовлення, оформлював пів години тому",track_order,UA
+"чому так довго, де кур'єр??",track_order,UA
+Коли мені чекати свою піцу?,track_order,UA
+"Мені сказали що привезуть до 19, а вже 19:40. Де замовлення",track_order,UA
+Чи вже готується моє замовлення?,track_order,UA
+"It's been an hour and nothing has arrived, where's my food?",track_order,EN
+"Hi, can you tell me where my courier is?",track_order,EN
+Order SH-1042 hasn't shown up yet,track_order,EN
+How many minutes until my delivery gets here?,track_order,EN
+is my order still being prepared?,track_order,EN
+Any update on my order?,track_order,EN
+"Courier says he's outside but I see nobody, where is he",track_order,EN
+Де мій order? it's late,track_order,MIX
+Статус my delivery будь ласка,track_order,MIX
+Order все ще не приїхав,track_order,MIX
+"de moe zamovlennia, kurier ye?",track_order,TRANSLIT
+kolly pryvezut mii zakaz,track_order,TRANSLIT
+"Вибачте, я помилився, мені це замовлення вже не потрібне",cancel_order,UA
+"Прошу видалити моє замовлення, зміни в планах",cancel_order,UA
+"Відмініть, будь ласка, піцу, я передумав",cancel_order,UA
+"Замовлення оформилось двічі, скасуйте одне",cancel_order,UA
+"Не треба нічого привозити, дякую",cancel_order,UA
+"Я не встигну отримати, скасуйте замовлення",cancel_order,UA
+"Ой, не туди адреса вказав, давайте скасуємо",cancel_order,UA
+Можете відмінити? Знайшов дешевше,cancel_order,UA
+скасувати замовлення SH-1045,cancel_order,UA
+"Забирайте назад замовлення, я передумав їсти",cancel_order,UA
+"Sorry, I need to cancel my order, plans changed",cancel_order,EN
+"Please remove my order, I placed it twice",cancel_order,EN
+"Don't deliver anything, I no longer need it",cancel_order,EN
+cancel it pls,cancel_order,EN
+"I won't be home, so can you cancel the delivery?",cancel_order,EN
+"I entered the wrong address, let's cancel this one",cancel_order,EN
+Void order SH-1045,cancel_order,EN
+Cancel замовлення будь ласка,cancel_order,MIX
+"Скасуйте my order, thanks",cancel_order,MIX
+Please відмініть мій заказ,cancel_order,MIX
+skasuite zamovlennia pozhalujsta,cancel_order,TRANSLIT
+"ne treba bilshe, vidminit zakaz",cancel_order,TRANSLIT
+А ви працюєте вночі?,faq,UA
+Скільки у вас триває доставка в середньому по місту?,faq,UA
+Чи є в меню щось без лактози?,faq,UA
+Яка ціна доставки до університету?,faq,UA
+Чи робите ви знижку студентам?,faq,UA
+Що входить до комбо-обіду?,faq,UA
+Чи можна замовити торт на день народження?,faq,UA
+Ви доставляєте за місто?,faq,UA
+Як працює бонусна програма?,faq,UA
+Чи є у вас халяльне меню?,faq,UA
+Do you guys open on Sundays?,faq,EN
+What's the delivery fee to the city center?,faq,EN
+Do you have anything dairy free?,faq,EN
+Is there a student discount?,faq,EN
+How can I contact support?,faq,EN
+Do you offer catering for parties?,faq,EN
+Can I change the delivery address after ordering?,faq,EN
+Do you deliver до Садгори?,faq,MIX
+Чи є vegan options?,faq,MIX
+Which payment methods ви приймаєте?,faq,MIX
+chy ye bezkoshtovna dostavka,faq,TRANSLIT
+yaki sposoby oplaty ye,faq,TRANSLIT
