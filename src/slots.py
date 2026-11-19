@@ -124,15 +124,92 @@ ADDRESS_PATTERNS = [
         re.I | re.UNICODE,
     ),
     re.compile(
-        r"\b\d{1,5}\s+[\w'’\-]+(?:\s+[\w'’\-]+){0,2}\s+"
+        r"\b\d{1,5}\s+[\w'’\-]+(?:\s+[\w'’\-]+)?\s+"
         r"(?:street|st\.?|road|rd\.?|avenue|ave\.?|lane|drive|dr\.?|boulevard|blvd\.?)\b",
         re.I,
+    ),
+    re.compile(
+        r"\b(?:to|at)\s+"
+        r"[\w'’\-]+(?:\s+[\w'’\-]+){0,2}\s+"
+        r"(?:street|st\.?|road|rd\.?|avenue|ave\.?|lane|drive|dr\.?|boulevard|blvd\.?)"
+        r"\s+\d{1,5}(?:/\d+)?"
+        r"(?:\s*(?:apt\.?|apartment|flat)\s*\d+)?",
+        re.I,
+    ),
+    re.compile(
+        r"\b[\w'’\-]+(?:\s+[\w'’\-]+)?\s+"
+        r"(?:street|st\.?|road|rd\.?|avenue|ave\.?|lane|drive|dr\.?|boulevard|blvd\.?)"
+        r"\s+\d{1,5}(?:/\d+)?"
+        r"(?:\s*(?:apt\.?|apartment|flat)\s*\d+)?",
+        re.I,
+    ),
+    re.compile(
+        r"\b(?:на|по|адрес(?:а)?\s*:?)\s+"
+        r"(?P<street>[^\W\d_]+(?:['’\-][^\W\d_]+)*(?:\s+[^\W\d_]+(?:['’\-][^\W\d_]+)*){0,2})"
+        r"\s*,?\s+(?P<number>\d{1,5})(?:/\d+)?"
+        r"(?:\s*(?:кв\.?|квартира)\s*\d+)?",
+        re.I | re.UNICODE,
     ),
     re.compile(
         r"\b(?:хрещатик|саксаганського)\s*\d{1,5}\b",
         re.I | re.UNICODE,
     ),
 ]
+
+TRANSLITERATION_DIGRAPHS = (
+    ("shch", "щ"),
+    ("sh", "ш"),
+    ("ch", "ч"),
+    ("zh", "ж"),
+    ("kh", "х"),
+    ("ts", "ц"),
+    ("yu", "ю"),
+    ("ya", "я"),
+    ("ye", "є"),
+    ("yi", "ї"),
+    ("ie", "є"),
+    ("iu", "ю"),
+)
+TRANSLITERATION_CHARS = str.maketrans({
+    "a": "а",
+    "b": "б",
+    "c": "к",
+    "d": "д",
+    "e": "е",
+    "f": "ф",
+    "g": "г",
+    "h": "г",
+    "i": "і",
+    "j": "й",
+    "k": "к",
+    "l": "л",
+    "m": "м",
+    "n": "н",
+    "o": "о",
+    "p": "п",
+    "q": "к",
+    "r": "р",
+    "s": "с",
+    "t": "т",
+    "u": "у",
+    "v": "в",
+    "w": "в",
+    "x": "кс",
+    "y": "и",
+    "z": "з",
+})
+
+
+def _transliterate_ukrainian(text: str) -> str:
+    def convert_word(match: re.Match) -> str:
+        word = match.group()
+        if not re.fullmatch(r"[a-z]+", word):
+            return word
+        for latin, cyrillic in TRANSLITERATION_DIGRAPHS:
+            word = word.replace(latin, cyrillic)
+        return word.translate(TRANSLITERATION_CHARS)
+
+    return re.sub(r"[a-z]+", convert_word, text)
 
 COMMENT_PATTERNS = [
     re.compile(r"\b(без\s+[\wіїєґ']+(?:\s+[\wіїєґ']+)?)\b", re.I | re.UNICODE),
@@ -281,19 +358,30 @@ class SlotExtractor:
                 )
 
         address_match = None
-        for pattern in ADDRESS_PATTERNS:
-            address_match = pattern.search(text_n)
+        address_text = text_n
+        for candidate_text in (text_n, _transliterate_ukrainian(text_n)):
+            for pattern in ADDRESS_PATTERNS:
+                address_match = pattern.search(candidate_text)
+                if address_match:
+                    address_text = candidate_text
+                    break
             if address_match:
                 break
         if address_match:
-            slots.address = address_match.group().strip(" ,")
+            slots.address = re.sub(
+                r"^(?:на|по|адрес(?:а)?\s*:|to|at)\s+",
+                "",
+                address_match.group().strip(" ,"),
+                flags=re.I,
+            )
+            text_n = address_text
             text_n = (
                 text_n[: address_match.start()]
                 + " "
                 + text_n[address_match.end() :]
             )
-        tokens = tokenize(text_n)
 
+        tokens = tokenize(text_n)
         seen: set[int] = set()
         last_item_end = 0
         i = 0
@@ -332,13 +420,10 @@ class SlotExtractor:
             matched_item = exact_match
             matched_n = exact_n
             if matched_item is None:
-                for n in range(1, max_n + 1):
-                    phrase = " ".join(tokens[i : i + n])
-                    item = self.menu.match_dish(phrase)
-                    if item and item["id"] not in seen:
-                        matched_item = item
-                        matched_n = n
-                        break
+                item = self.menu.match_dish(tokens[i])
+                if item and item["id"] not in seen:
+                    matched_item = item
+                    matched_n = 1
 
             if matched_item:
                 qty = 1
@@ -363,5 +448,53 @@ class SlotExtractor:
                 i += matched_n
             else:
                 i += 1
+
+        if not slots.dishes:
+            transliterated_text = _transliterate_ukrainian(text_n)
+            tokens = tokenize(transliterated_text)
+            last_item_end = 0
+            i = 0
+            while i < len(tokens):
+                ti = tokens[i].lower()
+                max_n = min(self.max_alias_len, len(tokens) - i)
+                matched_item = None
+                matched_n = 0
+                if (
+                    ti not in QUANTITY_WORDS
+                    and not tokens[i].isdigit()
+                    and ti not in STOP_TOKENS
+                    and len(ti) >= 3
+                ):
+                    for n in range(max_n, 0, -1):
+                        phrase_tokens = tokens[i : i + n]
+                        phrase = " ".join(phrase_tokens)
+                        item = self.menu.alias_to_item.get(phrase)
+                        if item is None and n == 1:
+                            item = self.menu.match_dish(phrase)
+                        if item:
+                            matched_item = item
+                            matched_n = n
+                            break
+                if matched_item:
+                    quantity = 1
+                    for token in reversed(tokens[max(last_item_end, i - 4) : i]):
+                        if token.lower() in QUANTITY_WORDS:
+                            quantity = QUANTITY_WORDS[token.lower()]
+                            break
+                        if token.isdigit():
+                            quantity = int(token)
+                            break
+                    slots.dishes.append(
+                        DishItem(
+                            dish_id=matched_item["id"],
+                            dish_name=matched_item["name"],
+                            quantity=quantity,
+                            raw=" ".join(tokens[i : i + matched_n]),
+                        )
+                    )
+                    last_item_end = i + matched_n
+                    i += matched_n
+                else:
+                    i += 1
 
         return slots

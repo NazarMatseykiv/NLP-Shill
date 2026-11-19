@@ -67,7 +67,7 @@ def plot_class_distribution(df: pd.DataFrame, out: Path) -> None:
             a.legend(title=col, fontsize=8)
         else:
             df["intent"].value_counts().reindex(order).plot(kind="bar", ax=a, rot=0, color="#22c55e")
-        a.set_title(f"Розподіл класів intent ({title})")
+        a.set_title(f"Розподіл основних класів intent ({title})")
         a.set_xlabel("")
         a.set_ylabel("Кількість")
     plt.tight_layout()
@@ -120,6 +120,13 @@ def plot_model_bars(res: pd.DataFrame, split_name: str, metric: str, lo: str, hi
 
 # 3. Матриця помилок
 def plot_cm(y_true, y_pred, labels, title: str, fname: Path) -> None:
+    labels = [label for label in labels if label != "other"]
+    y_true = np.asarray(y_true)
+    y_pred = np.asarray(y_pred)
+    included = np.isin(y_true, labels) & np.isin(y_pred, labels)
+    y_true = y_true[included]
+    y_pred = y_pred[included]
+
     fig, ax = plt.subplots(1, 2, figsize=(12, 5))
     cm = confusion_matrix(y_true, y_pred, labels=labels)
     ConfusionMatrixDisplay(cm, display_labels=labels).plot(ax=ax[0], cmap="Blues",

@@ -38,11 +38,17 @@ class MenuMatcher:
         for alias in tuple(aliases):
             if re.fullmatch(r"[a-z]+", alias):
                 if alias.endswith("y") and len(alias) > 1:
-                    aliases.add(alias[:-1] + "ies")
+                    plural = alias[:-1] + "ies"
                 elif alias.endswith(("s", "x", "ch", "sh")):
-                    aliases.add(alias + "es")
+                    plural = alias + "es"
                 else:
-                    aliases.add(alias + "s")
+                    plural = alias + "s"
+                aliases.add(plural)
+                self.alias_to_item[plural] = self.alias_to_item[alias]
+            elif alias.endswith("а"):
+                plural = alias[:-1] + "и"
+                aliases.add(plural)
+                self.alias_to_item[plural] = self.alias_to_item[alias]
         self.choices = list(self.alias_to_item.keys())
         self._mask_patterns = [
             re.compile(r"(?<!\w)" + re.escape(alias) + r"(?!\w)", re.IGNORECASE)

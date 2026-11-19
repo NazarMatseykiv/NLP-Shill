@@ -17,6 +17,22 @@ ROOT = Path(__file__).resolve().parent
 
 SLOT_TEST_CASES = [
     {
+        "text": "на Руську 22 кв 9",
+        "address_contains": "Руську 22",
+    },
+    {
+        "text": "Order 2 pizzas to Baker Street 87",
+        "expected_dishes": ["Pizza Margherita"],
+        "expected_quantities": {"Pizza Margherita": 2},
+        "address_contains": "Baker Street 87",
+    },
+    {
+        "text": "zamovte 2 pitsy na Shevchenka 5",
+        "expected_dishes": ["Pizza Margherita"],
+        "expected_quantities": {"Pizza Margherita": 2},
+        "address_contains": "шевченка 5",
+    },
+    {
         "text": "Два борщі та салат на вул. Шевченка 12",
         "expected_dishes": ["Borscht / Борщ", "Caesar Salad"],
         "address_contains": "Шевченка",
@@ -304,22 +320,23 @@ def main() -> None:
     slot_eval = evaluate_slots()
     print(json.dumps(slot_eval, ensure_ascii=False, indent=2))
 
+    result = {
+        "data_quality": quality,
+        "intent_cv": intent_cv,
+        "entity_masking_cv": masking_cv,
+        "transliteration_cv": transliteration_cv,
+        "slots": slot_eval,
+    }
+    serialized = json.dumps(result, ensure_ascii=False, indent=2)
     out = ROOT / "models" / "evaluation_full.json"
-    out.write_text(
-        json.dumps(
-            {
-                "data_quality": quality,
-                "intent_cv": intent_cv,
-                "entity_masking_cv": masking_cv,
-                "transliteration_cv": transliteration_cv,
-                "slots": slot_eval,
-            },
-            ensure_ascii=False,
-            indent=2,
-        ),
-        encoding="utf-8",
+    out.write_text(serialized, encoding="utf-8")
+    report = ROOT / "reports" / "evaluation_full.json"
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_text(serialized, encoding="utf-8")
+    print(
+        f"\nSaved evaluation: {out}\n"
+        f"Saved report: {report}"
     )
-    print(f"\nSaved: {out}")
 
 
 if __name__ == "__main__":

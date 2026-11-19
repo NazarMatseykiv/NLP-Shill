@@ -1,0 +1,275 @@
+{
+  "data_quality": {
+    "path": "G:\\VI\\NLP-Shill\\data\\intents_merged.csv",
+    "total_samples": 2911,
+    "unique_intents": 5,
+    "intent_distribution": {
+      "faq": {
+        "count": 695,
+        "share": 0.2387
+      },
+      "create_order": {
+        "count": 859,
+        "share": 0.2951
+      },
+      "cancel_order": {
+        "count": 638,
+        "share": 0.2192
+      },
+      "track_order": {
+        "count": 649,
+        "share": 0.2229
+      },
+      "other": {
+        "count": 70,
+        "share": 0.024
+      }
+    },
+    "class_imbalance_ratio": 12.27,
+    "duplicate_texts": 273,
+    "completeness_empty_text": 0,
+    "avg_tokens": 7.43,
+    "min_tokens": 1,
+    "max_tokens": 27,
+    "quality_notes": {
+      "accuracy": "Тексти нормалізовані (lower, NFC); дублікати видаляються при merge",
+      "completeness": "Порожні рядки відсутні",
+      "consistency": "Єдиний формат intent: create_order | track_order | cancel_order | faq",
+      "timeliness": "Статичний корпус; оновлення — scripts/download_datasets.py"
+    }
+  },
+  "intent_cv": {
+    "model": "linear_svc",
+    "feature_set": "char",
+    "cv_folds": 5,
+    "f1_macro_mean": 0.849253605520437,
+    "f1_macro_std": 0.040207277954243684,
+    "f1_macro_scores": [
+      0.8792587549715962,
+      0.8958956792995103,
+      0.8160440458912939,
+      0.7890572231083486,
+      0.8660123243314359
+    ]
+  },
+  "entity_masking_cv": {
+    "cv_folds": 5,
+    "masked_f1_macro": [
+      0.8792587549715962,
+      0.8958956792995103,
+      0.8160440458912939,
+      0.7890572231083486,
+      0.8660123243314359
+    ],
+    "unmasked_f1_macro": [
+      0.893736442787939,
+      0.8776965036282472,
+      0.8399252454331698,
+      0.7859973165476501,
+      0.7997605957937163
+    ],
+    "masked_mean": 0.849253605520437,
+    "unmasked_mean": 0.8394232208381446,
+    "mean_delta": 0.009830384682292425
+  },
+  "transliteration_cv": {
+    "support": 212,
+    "accuracy": 0.8490566037735849,
+    "f1_macro": 0.8471242561394685
+  },
+  "slots": {
+    "slot_tests_total": 8,
+    "slot_tests_passed": 8,
+    "slot_accuracy": 1.0,
+    "slot_annotated_messages": 100,
+    "slot_f1": {
+      "dishes": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "true_positives": 100,
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      "quantities": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "true_positives": 100,
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      "addresses": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "true_positives": 100,
+        "false_positives": 0,
+        "false_negatives": 0
+      }
+    },
+    "details": [
+      {
+        "text": "на Руську 22 кв 9",
+        "ok": true,
+        "slots": {
+          "dishes": [],
+          "address": "руську 22 кв 9",
+          "payment": null,
+          "comment": null,
+          "time_hint": null
+        }
+      },
+      {
+        "text": "Order 2 pizzas to Baker Street 87",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 3,
+              "dish_name": "Pizza Margherita",
+              "quantity": 2,
+              "raw": "pizzas"
+            }
+          ],
+          "address": "baker street 87",
+          "payment": null,
+          "comment": null,
+          "time_hint": null
+        }
+      },
+      {
+        "text": "zamovte 2 pitsy na Shevchenka 5",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 3,
+              "dish_name": "Pizza Margherita",
+              "quantity": 2,
+              "raw": "піци"
+            }
+          ],
+          "address": "шевченка 5",
+          "payment": null,
+          "comment": null,
+          "time_hint": null
+        }
+      },
+      {
+        "text": "Два борщі та салат на вул. Шевченка 12",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 1,
+              "dish_name": "Borscht / Борщ",
+              "quantity": 2,
+              "raw": "борщі"
+            },
+            {
+              "dish_id": 4,
+              "dish_name": "Caesar Salad",
+              "quantity": 1,
+              "raw": "салат"
+            }
+          ],
+          "address": "вул. шевченка 12",
+          "payment": null,
+          "comment": null,
+          "time_hint": null
+        }
+      },
+      {
+        "text": "Two burgers and fries delivered to 12 Main Street pay by card, leave at the door",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 5,
+              "dish_name": "Burger",
+              "quantity": 2,
+              "raw": "burgers"
+            },
+            {
+              "dish_id": 6,
+              "dish_name": "French Fries",
+              "quantity": 1,
+              "raw": "fries"
+            }
+          ],
+          "address": "12 main street",
+          "payment": "card",
+          "comment": "leave at the door",
+          "time_hint": null
+        }
+      },
+      {
+        "text": "На вул. Шевченка 12 хочу два бургери та піцу, карткою",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 5,
+              "dish_name": "Burger",
+              "quantity": 2,
+              "raw": "бургери"
+            },
+            {
+              "dish_id": 3,
+              "dish_name": "Pizza Margherita",
+              "quantity": 1,
+              "raw": "піцу"
+            }
+          ],
+          "address": "вул. шевченка 12",
+          "payment": "card",
+          "comment": null,
+          "time_hint": null
+        }
+      },
+      {
+        "text": "На вул. Шевченка 12 хочу піцу пепероні та four cheese pizza, карткою",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 30,
+              "dish_name": "Pizza Pepperoni / Піца Пепероні",
+              "quantity": 1,
+              "raw": "піцу пепероні"
+            },
+            {
+              "dish_id": 29,
+              "dish_name": "Pizza Quattro Formaggi / Піца 4 сири",
+              "quantity": 1,
+              "raw": "four cheese pizza"
+            }
+          ],
+          "address": "вул. шевченка 12",
+          "payment": "card",
+          "comment": null,
+          "time_hint": null
+        }
+      },
+      {
+        "text": "One pizza no onions at 5 Oak Avenue",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 3,
+              "dish_name": "Pizza Margherita",
+              "quantity": 1,
+              "raw": "pizza"
+            }
+          ],
+          "address": "5 oak avenue",
+          "payment": null,
+          "comment": "no onions at",
+          "time_hint": null
+        }
+      }
+    ]
+  }
+}

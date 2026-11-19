@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 from importlib.util import find_spec
+import hashlib
 import json
 import random
 import re
@@ -235,6 +236,25 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
 
     texts, labels, groups = load_data(Path(args.data))
+    data_path = Path(args.data).resolve()
+    data_frame = pd.read_csv(data_path)
+    (out / "experiment_metadata.json").write_text(
+        json.dumps(
+            {
+                "data_path": str(data_path),
+                "data_sha256": hashlib.sha256(data_path.read_bytes()).hexdigest(),
+                "samples": len(data_frame),
+                "intent_distribution": data_frame["intent"]
+                .value_counts()
+                .sort_index()
+                .to_dict(),
+                "comparison_scope": "single_dataset",
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     sgkf = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=SEED)
     tr_idx, te_idx = next(sgkf.split(texts, labels, groups))
     X_tr = [texts[i] for i in tr_idx]; y_tr = [labels[i] for i in tr_idx]

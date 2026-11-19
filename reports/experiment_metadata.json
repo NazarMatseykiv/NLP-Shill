@@ -1,0 +1,13 @@
+{
+  "data_path": "G:\\VI\\NLP-Shill\\data\\intents_merged.csv",
+  "data_sha256": "266425e27414524c9e41016d77392e451fdd79aae79abe50156a51060f0d4417",
+  "samples": 2911,
+  "intent_distribution": {
+    "cancel_order": 638,
+    "create_order": 859,
+    "faq": 695,
+    "other": 70,
+    "track_order": 649
+  },
+  "comparison_scope": "single_dataset"
+}

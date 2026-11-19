@@ -42,24 +42,24 @@
     "model": "linear_svc",
     "feature_set": "char",
     "cv_folds": 5,
-    "f1_macro_mean": 0.8435565046264074,
-    "f1_macro_std": 0.040394068775500766,
+    "f1_macro_mean": 0.849253605520437,
+    "f1_macro_std": 0.040207277954243684,
     "f1_macro_scores": [
-      0.8763718652771336,
-      0.8929470603238668,
-      0.8175965365596598,
-      0.7808907614638461,
-      0.849976299507531
+      0.8792587549715962,
+      0.8958956792995103,
+      0.8160440458912939,
+      0.7890572231083486,
+      0.8660123243314359
     ]
   },
   "entity_masking_cv": {
     "cv_folds": 5,
     "masked_f1_macro": [
-      0.8763718652771336,
-      0.8929470603238668,
-      0.8175965365596598,
-      0.7808907614638461,
-      0.849976299507531
+      0.8792587549715962,
+      0.8958956792995103,
+      0.8160440458912939,
+      0.7890572231083486,
+      0.8660123243314359
     ],
     "unmasked_f1_macro": [
       0.893736442787939,
@@ -68,18 +68,18 @@
       0.7859973165476501,
       0.7997605957937163
     ],
-    "masked_mean": 0.8435565046264074,
+    "masked_mean": 0.849253605520437,
     "unmasked_mean": 0.8394232208381446,
-    "mean_delta": 0.004133283788262787
+    "mean_delta": 0.009830384682292425
   },
   "transliteration_cv": {
     "support": 212,
-    "accuracy": 0.8443396226415094,
-    "f1_macro": 0.8419246203722368
+    "accuracy": 0.8490566037735849,
+    "f1_macro": 0.8471242561394685
   },
   "slots": {
-    "slot_tests_total": 5,
-    "slot_tests_passed": 5,
+    "slot_tests_total": 8,
+    "slot_tests_passed": 8,
     "slot_accuracy": 1.0,
     "slot_annotated_messages": 100,
     "slot_f1": {
@@ -109,6 +109,53 @@
       }
     },
     "details": [
+      {
+        "text": "на Руську 22 кв 9",
+        "ok": true,
+        "slots": {
+          "dishes": [],
+          "address": "руську 22 кв 9",
+          "payment": null,
+          "comment": null,
+          "time_hint": null
+        }
+      },
+      {
+        "text": "Order 2 pizzas to Baker Street 87",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 3,
+              "dish_name": "Pizza Margherita",
+              "quantity": 2,
+              "raw": "pizzas"
+            }
+          ],
+          "address": "baker street 87",
+          "payment": null,
+          "comment": null,
+          "time_hint": null
+        }
+      },
+      {
+        "text": "zamovte 2 pitsy na Shevchenka 5",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 3,
+              "dish_name": "Pizza Margherita",
+              "quantity": 2,
+              "raw": "піци"
+            }
+          ],
+          "address": "шевченка 5",
+          "payment": null,
+          "comment": null,
+          "time_hint": null
+        }
+      },
       {
         "text": "Два борщі та салат на вул. Шевченка 12",
         "ok": true,
