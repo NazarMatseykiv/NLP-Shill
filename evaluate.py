@@ -18,9 +18,30 @@ SLOT_TEST_CASES = [
         "address_contains": "Шевченка",
     },
     {
-        "text": "Two burgers and fries delivered to 12 Main Street pay by card",
+        "text": "Two burgers and fries delivered to 12 Main Street pay by card, leave at the door",
         "expected_dishes": ["Burger", "French Fries"],
         "address_contains": "Main Street",
+        "payment": "card",
+        "comment_contains": "leave at the door",
+    },
+    {
+        "text": "На вул. Шевченка 12 хочу два бургери та піцу, карткою",
+        "expected_dishes": ["Burger", "Pizza Margherita"],
+        "expected_quantities": {"Burger": 2, "Pizza Margherita": 1},
+        "address_contains": "Шевченка",
+        "payment": "card",
+    },
+    {
+        "text": "На вул. Шевченка 12 хочу піцу пепероні та four cheese pizza, карткою",
+        "expected_dishes": [
+            "Pizza Pepperoni / Піца Пепероні",
+            "Pizza Quattro Formaggi / Піца 4 сири",
+        ],
+        "exact_dishes": [
+            "Pizza Pepperoni / Піца Пепероні",
+            "Pizza Quattro Formaggi / Піца 4 сири",
+        ],
+        "address_contains": "Шевченка",
         "payment": "card",
     },
     {
@@ -55,12 +76,23 @@ def evaluate_slots() -> dict:
         slots = extractor.extract(case["text"]).to_dict()
         dish_names = [d["dish_name"] for d in slots["dishes"]]
         ok = all(name in dish_names for name in case.get("expected_dishes", []))
+        if case.get("exact_dishes"):
+            ok = ok and set(dish_names) == set(case["exact_dishes"])
+        quantities = {dish["dish_name"]: dish["quantity"] for dish in slots["dishes"]}
+        ok = ok and all(
+            quantities.get(name) == quantity
+            for name, quantity in case.get("expected_quantities", {}).items()
+        )
         if case.get("address_contains"):
-            ok = ok and slots["address"] and case["address_contains"] in slots["address"]
+            address = (slots["address"] or "").casefold()
+            expected_address = case["address_contains"].casefold()
+            ok = ok and expected_address in address
         if case.get("payment"):
             ok = ok and slots["payment"] == case["payment"]
         if case.get("comment_contains"):
-            ok = ok and slots["comment"] and case["comment_contains"] in slots["comment"]
+            comment = (slots["comment"] or "").casefold()
+            expected_comment = case["comment_contains"].casefold()
+            ok = ok and expected_comment in comment
         passed += int(ok)
         details.append({"text": case["text"], "ok": ok, "slots": slots})
     return {

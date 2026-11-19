@@ -1,7 +1,7 @@
 [
   {"id": 1, "name": "Borscht / Борщ", "aliases": ["борщ", "борщу", "borscht", "borsch", "beet soup"]},
   {"id": 2, "name": "Varenyky / Вареники", "aliases": ["вареники", "varenyky", "dumplings"]},
-  {"id": 3, "name": "Pizza Margherita", "aliases": ["піца", "pizza", "margherita", "pepperoni pizza", "pepperoni"]},
+  {"id": 3, "name": "Pizza Margherita", "aliases": ["піца", "піцу", "pizza", "margherita"]},
   {"id": 4, "name": "Caesar Salad", "aliases": ["салат", "salad", "caesar", "цезар", "caesar salad"]},
   {"id": 5, "name": "Burger", "aliases": ["бургер", "burger", "cheeseburger", "vegan burger", "chicken burger"]},
   {"id": 6, "name": "French Fries", "aliases": ["фрі", "fries", "french fries", "garlic bread"]},
@@ -16,8 +16,7 @@
   {"id": 15, "name": "Pad Thai", "aliases": ["pad thai", "thai noodles"]},
   {"id": 16, "name": "Spring Rolls", "aliases": ["spring rolls", "spring roll"]},
   {"id": 17, "name": "Croissant", "aliases": ["croissant"]},
-  {"id": 18, "name": "Sparkling Water", "aliases": ["sparkling water", "mineral water", "water"]}
-  ,
+  {"id": 18, "name": "Sparkling Water", "aliases": ["sparkling water", "mineral water", "water"]},
   {"id": 19, "name": "Holubtsi / Голубці", "aliases": ["голубці", "holubtsi", "голубець"]},
   {"id": 20, "name": "Deruny / Деруни", "aliases": ["деруни", "deruny", "potato pancakes", "драники"]},
   {"id": 21, "name": "Pampushky / Пампушки", "aliases": ["пампушки", "pampushky", "garlic buns"]},
@@ -27,6 +26,11 @@
   {"id": 25, "name": "Nalysnyky / Налисники", "aliases": ["налисники", "nalysnyky", "crepes"]},
   {"id": 26, "name": "Galushky / Галушки", "aliases": ["галушки", "galushky"]},
   {"id": 27, "name": "Syrnyky / Сирники", "aliases": ["сирники", "syrnyky", "cheese pancakes"]},
-  {"id": 28, "name": "Kutia / Кутя", "aliases": ["кутя", "kutia"]}
+  {"id": 28, "name": "Kutia / Кутя", "aliases": ["кутя", "kutia"]},
+  {"id": 29, "name": "Pizza Quattro Formaggi / Піца 4 сири", "aliases": ["піца 4 сири", "піца чотири сири", "піцу 4 сири", "піцу чотири сири", "four cheese pizza", "4 cheese pizza", "quattro formaggi"]},
+  {"id": 30, "name": "Pizza Pepperoni / Піца Пепероні", "aliases": ["піца пепероні", "піцу пепероні", "пепероні", "pepperoni pizza", "pepperoni pizzas", "pizza pepperoni"]},
+  {"id": 31, "name": "Hawaiian Pizza / Гавайська піца", "aliases": ["гавайська піца", "піца гавайська", "hawaiian pizza"]},
+  {"id": 32, "name": "BBQ Chicken Pizza / Піца BBQ з куркою", "aliases": ["піца барбекю з куркою", "піца bbq", "bbq chicken pizza"]},
+  {"id": 33, "name": "Vegetarian Pizza / Овочева піца", "aliases": ["овочева піца", "піца овочева", "vegetarian pizza", "veggie pizza"]}
 ]
 

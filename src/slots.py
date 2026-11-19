@@ -60,32 +60,50 @@ STOP_TOKENS = {
     "the",
     "a",
     "an",
+    "хочу",
+    "замовити",
+    "замовлення",
+    "потрібно",
+    "потрібен",
+    "потрібна",
+    "привезіть",
+    "доставте",
+    "оформіть",
+    "want",
+    "order",
+    "please",
 }
 
 PAYMENT_PATTERNS = [
     (re.compile(r"\b(карткою|картою|картка|безготівк\w*)\b", re.I), "card"),
     (re.compile(r"\b(готівк\w*|готівкою)\b", re.I), "cash"),
-    (re.compile(r"\b(card|by card|credit card|debit card)\b", re.I), "card"),
+    (
+        re.compile(
+            r"\b(pay(?:ment)?\s+(?:by|with)\s+card|credit card|debit card|by card|card)\b",
+            re.I,
+        ),
+        "card",
+    ),
     (re.compile(r"\b(cash|cash on delivery|cod)\b", re.I), "cash"),
     (re.compile(r"\b(online|онлайн)\b", re.I), "online"),
 ]
 
 ADDRESS_PATTERNS = [
     re.compile(
-        r"(?:вул\.?|вулиц[яі]\s+|просп\.?|проспект\s+|пров\.?|провулок\s+)"
-        r"([a-zа-яіїєґ0-9\s\.\-]+?)(?:\s*(?:\d+)|\s*(?:кв\.?)|$)",
+        r"\b(?:вул\.?|вулиц[яі]|просп\.?|проспект|пров\.?|провулок)\s+"
+        r"[\w'’\-]+(?:\s+[\w'’\-]+){0,3}\s*,?\s*\d{1,5}(?:/\d+)?"
+        r"(?:\s*(?:кв\.?|квартира)\s*\d+)?",
         re.I | re.UNICODE,
     ),
     re.compile(
-        r"\b(?:deliver(?:y)?\s+to|delivered\s+to|address|at)\s+"
-        r"(\d{1,5}\s+[\w\s\.\-]+?(?:street|st\.?|road|rd\.?|avenue|ave\.?|lane|drive|dr\.?))",
+        r"\b\d{1,5}\s+[\w'’\-]+(?:\s+[\w'’\-]+){0,3}\s+"
+        r"(?:street|st\.?|road|rd\.?|avenue|ave\.?|lane|drive|dr\.?|boulevard|blvd\.?)\b",
         re.I,
     ),
     re.compile(
-        r"\b(\d{1,5}\s+[\w\s\.\-]+(?:street|st\.?|road|rd\.?|avenue|ave\.?|lane|drive))\b",
-        re.I,
+        r"\b(?:хрещатик|саксаганського)\s*\d{1,5}\b",
+        re.I | re.UNICODE,
     ),
-    re.compile(r"\b(хрещатик\s*\d+|саксаганського\s*\d+)\b", re.I | re.UNICODE),
 ]
 
 COMMENT_PATTERNS = [
@@ -185,16 +203,19 @@ class SlotExtractor:
         slots = OrderSlots()
 
         payment_text = None
+        payment_match = None
         for pattern, payment in PAYMENT_PATTERNS:
             m = pattern.search(text_n)
             if m:
                 slots.payment = payment
                 payment_text = m.group(0)
+                payment_match = m
                 break
 
         comment_text = None
+        comment_end = payment_match.start() if payment_match else len(text_n)
         for pattern in COMMENT_PATTERNS:
-            m = pattern.search(text_n)
+            m = pattern.search(text_n, 0, comment_end)
             if m:
                 slots.comment = m.group(1).strip()
                 comment_text = m.group(0)
@@ -202,122 +223,115 @@ class SlotExtractor:
 
         time_text = None
         for pattern in TIME_PATTERNS:
-            m = pattern.search(text_n)
+            m = pattern.search(text_n, 0, comment_end)
             if m:
                 slots.time_hint = m.group(1).strip()
                 time_text = m.group(0)
                 break
 
+        trailing_comment = None
+        if payment_match:
+            trailing_comment = text_n[payment_match.end() :]
+            trailing_comment = trailing_comment.strip(" \t\r\n,.;:!?-—")
+            if trailing_comment:
+                slots.comment = (
+                    f"{slots.comment}, {trailing_comment}"
+                    if slots.comment
+                    else trailing_comment
+                )
+
         # remove detected payment/comment/time substrings from normalized text
-        for s in (payment_text, comment_text, time_text):
+        for s in (
+            payment_text,
+            comment_text,
+            text_n[payment_match.end() :] if payment_match and trailing_comment else None,
+            time_text,
+        ):
             if s:
                 text_n = text_n.replace(normalize_text(s), " ")
 
-        # tokenize and detect address heuristically from tokens (avoid regex over-capture)
+        address_match = None
+        for pattern in ADDRESS_PATTERNS:
+            address_match = pattern.search(text_n)
+            if address_match:
+                break
+        if address_match:
+            slots.address = address_match.group().strip(" ,")
+            text_n = (
+                text_n[: address_match.start()]
+                + " "
+                + text_n[address_match.end() :]
+            )
         tokens = tokenize(text_n)
-        ADDRESS_KEYWORDS = {
-            "street",
-            "st",
-            "road",
-            "rd",
-            "avenue",
-            "ave",
-            "lane",
-            "drive",
-            "dr",
-            "main",
-            "blvd",
-            "boulevard",
-            "вул",
-            "вулиця",
-            "проспект",
-        }
-        addr_cut = None
-        for idx, t in enumerate(tokens):
-            tl = t.lower().strip(".,")
-            if tl in ADDRESS_KEYWORDS:
-                addr_cut = max(0, idx - 1)
-                break
-            if tl == "to" and idx + 1 < len(tokens) and tokens[idx + 1].isdigit():
-                addr_cut = idx
-                break
-            if tokens[idx].isdigit() and idx + 1 < len(tokens) and tokens[idx + 1].lower().strip(".,") in ADDRESS_KEYWORDS:
-                addr_cut = idx
-                break
-
-        if addr_cut is not None:
-            # reconstruct address from tokens and trim tokens for dish extraction
-            addr = " ".join(tokens[addr_cut:]).strip()
-            # drop leading 'to' if present
-            if addr.lower().startswith("to "):
-                addr = addr[3:]
-            slots.address = addr
-            tokens = tokens[:addr_cut]
 
         seen: set[int] = set()
-        # detect likely start of address tokens (English/UA keywords)
-        ADDRESS_KEYWORDS = {
-            "street",
-            "st",
-            "road",
-            "rd",
-            "avenue",
-            "ave",
-            "lane",
-            "drive",
-            "dr",
-            "main",
-            "blvd",
-            "boulevard",
-            "вул",
-            "вулиця",
-            "проспект",
-        }
-        addr_cut = None
-        for idx, t in enumerate(tokens):
-            if t.lower().strip(".,") in ADDRESS_KEYWORDS:
-                addr_cut = max(0, idx - 1)
-                break
+        last_item_end = 0
         i = 0
         while i < len(tokens):
-            if addr_cut is not None and i >= addr_cut:
-                break
             # skip starting on explicit quantity tokens, digits, or stop-words (prepositions/conjunctions)
             ti = tokens[i].lower()
-            if ti in QUANTITY_WORDS or tokens[i].isdigit() or ti in STOP_TOKENS or len(ti) < 3:
+            max_n = min(self.max_alias_len, len(tokens) - i)
+            exact_match = None
+            exact_n = 0
+            for n in range(max_n, 0, -1):
+                phrase_tokens = tokens[i : i + n]
+                phrase = " ".join(phrase_tokens)
+                item = self.menu.alias_to_item.get(phrase)
+                if item is None and _MORPH:
+                    lemma_phrase = " ".join(
+                        lemmatize_token(token, _MORPH) for token in phrase_tokens
+                    )
+                    item = self.menu.alias_to_item.get(lemma_phrase)
+                if item and item["id"] not in seen:
+                    exact_match = item
+                    exact_n = n
+                    break
+
+            if (
+                exact_match is None
+                and (
+                    ti in QUANTITY_WORDS
+                    or tokens[i].isdigit()
+                    or ti in STOP_TOKENS
+                    or len(ti) < 3
+                )
+            ):
                 i += 1
                 continue
-            matched = False
-            # try longest n-gram first
-            for n in range(1, self.max_alias_len + 1):
-                if i + n > len(tokens):
-                    continue
-                phrase = " ".join(tokens[i : i + n])
-                item = self.menu.match_dish(phrase)
-                if item and item["id"] not in seen:
-                    # parse quantity from tokens before i
-                    qty = 1
-                    for t in reversed(tokens[max(0, i - 4) : i]):
-                        tl = t.lower()
-                        if tl in QUANTITY_WORDS:
-                            qty = QUANTITY_WORDS[tl]
-                            break
-                        if tl.isdigit():
-                            qty = int(tl)
-                            break
-                    slots.dishes.append(
-                        DishItem(
-                            dish_id=item["id"],
-                            dish_name=item["name"],
-                            quantity=qty,
-                            raw=phrase,
-                        )
+
+            matched_item = exact_match
+            matched_n = exact_n
+            if matched_item is None:
+                for n in range(1, max_n + 1):
+                    phrase = " ".join(tokens[i : i + n])
+                    item = self.menu.match_dish(phrase)
+                    if item and item["id"] not in seen:
+                        matched_item = item
+                        matched_n = n
+                        break
+
+            if matched_item:
+                qty = 1
+                for t in reversed(tokens[max(last_item_end, i - 4) : i]):
+                    tl = t.lower()
+                    if tl in QUANTITY_WORDS:
+                        qty = QUANTITY_WORDS[tl]
+                        break
+                    if tl.isdigit():
+                        qty = int(tl)
+                        break
+                slots.dishes.append(
+                    DishItem(
+                        dish_id=matched_item["id"],
+                        dish_name=matched_item["name"],
+                        quantity=qty,
+                        raw=" ".join(tokens[i : i + matched_n]),
                     )
-                    seen.add(item["id"])
-                    i += n
-                    matched = True
-                    break
-            if not matched:
+                )
+                seen.add(matched_item["id"])
+                last_item_end = i + matched_n
+                i += matched_n
+            else:
                 i += 1
 
         return slots

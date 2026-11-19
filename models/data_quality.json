@@ -1,31 +1,31 @@
 {
-  "path": "C:\\Users\\NazarM\\food-delivery-nlp\\data\\intents_merged.csv",
-  "total_samples": 643,
+  "path": "G:\\VI\\NLP-Shill\\data\\intents_merged.csv",
+  "total_samples": 2786,
   "unique_intents": 4,
   "intent_distribution": {
-    "create_order": {
-      "count": 211,
-      "share": 0.3281
+    "faq": {
+      "count": 646,
+      "share": 0.2319
     },
-    "track_order": {
-      "count": 146,
-      "share": 0.2271
+    "create_order": {
+      "count": 859,
+      "share": 0.3083
     },
     "cancel_order": {
-      "count": 141,
-      "share": 0.2193
+      "count": 638,
+      "share": 0.229
     },
-    "faq": {
-      "count": 145,
-      "share": 0.2255
+    "track_order": {
+      "count": 643,
+      "share": 0.2308
     }
   },
-  "class_imbalance_ratio": 1.5,
+  "class_imbalance_ratio": 1.35,
   "duplicate_texts": 0,
   "completeness_empty_text": 0,
-  "avg_tokens": 7.28,
+  "avg_tokens": 7.88,
   "min_tokens": 1,
-  "max_tokens": 19,
+  "max_tokens": 28,
   "quality_notes": {
     "accuracy": "Тексти нормалізовані (lower, NFC); дублікати видаляються при merge",
     "completeness": "Порожні рядки відсутні",

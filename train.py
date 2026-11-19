@@ -49,8 +49,15 @@ def main() -> None:
                 "trained_at": datetime.now().isoformat(timespec="seconds"),
                 "model_name": model_name,
                 "feature_set": feature_set,
+                "data_path": str(data_path),
+                "total_samples": stats["train_size"] + stats["test_size"],
                 "train_size": stats["train_size"],
                 "test_size": stats["test_size"],
+                "cv_folds": stats["cv_folds"],
+                "cv_accuracy_mean": stats["cv_accuracy_mean"],
+                "cv_accuracy_std": stats["cv_accuracy_std"],
+                "cv_f1_macro_mean": stats["cv_f1_macro_mean"],
+                "cv_f1_macro_std": stats["cv_f1_macro_std"],
                 "accuracy": stats["accuracy"],
                 "f1_macro": stats["f1_macro"],
                 "labels": stats["labels"],
@@ -68,7 +75,7 @@ def main() -> None:
     print(f"Метрики: {METRICS}")
     print("\n--- Classification report ---\n")
     print(stats["report_text"])
-    print("\nДалі: python tune_model.py  →  python scripts/generate_ml_report.py")
+    print("\nДалі: python tune_model.py -> python scripts/generate_ml_report.py")
 
 
 if __name__ == "__main__":

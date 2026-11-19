@@ -2,7 +2,7 @@
   "task": "Intent classification (4 classes)",
   "input": "Текст повідомлення клієнта (UA/EN)",
   "model_type": "linear_svc",
-  "features": "combined",
+  "features": "char",
   "classes": [
     "create_order",
     "track_order",
@@ -10,10 +10,10 @@
     "faq"
   ],
   "metrics": {
-    "accuracy": 0.9689922480620154,
-    "f1_macro": 0.9662626393570133,
-    "train_size": 514,
-    "test_size": 129
+    "accuracy": 0.9910394265232975,
+    "f1_macro": 0.990535404036653,
+    "train_size": 2228,
+    "test_size": 558
   },
   "hyperparameters": {
     "tuned_at": "2026-05-22T00:02:18",
@@ -26,9 +26,9 @@
   },
   "baseline_comparison": {
     "model": "linear_svc",
-    "feature_set": "combined",
-    "cv_f1_macro_mean": 0.9500337241411572,
-    "test_f1_macro": 0.9662626393570133
+    "feature_set": "char",
+    "cv_f1_macro_mean": 0.9897448458056187,
+    "test_f1_macro": 0.990535404036653
   },
-  "artifact_size_kb": 348.34
+  "artifact_size_kb": 704.71
 }
