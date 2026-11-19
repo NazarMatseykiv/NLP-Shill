@@ -116,6 +116,7 @@ INTENT_UI = {
     "track_order": {"title": "Статус доставки", "color": "#2563eb"},
     "cancel_order": {"title": "Скасування", "color": "#dc2626"},
     "faq": {"title": "Питання клієнта", "color": "#7c3aed"},
+    "other": {"title": "Потрібне уточнення", "color": "#64748b"},
 }
 
 
@@ -172,6 +173,8 @@ def analyze(body: AnalyzeRequest) -> dict:
         result["summary"] = "Клієнт цікавиться, де замовлення або коли буде доставка."
     elif result["intent"] == "cancel_order":
         result["summary"] = "Клієнт просить скасувати замовлення."
+    elif result["intent"] == "other":
+        result["summary"] = "Не вдалося впевнено визначити тему. Уточніть, будь ласка, запит."
     else:
         result["summary"] = "Загальне питання щодо сервісу або меню."
 

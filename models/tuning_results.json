@@ -1,9 +1,10 @@
 {
-  "tuned_at": "2026-05-22T00:02:18",
+  "tuned_at": "2026-11-19T15:19:05",
   "model_name": "linear_svc",
-  "feature_set": "combined",
+  "feature_set": "char",
+  "data_sha256": "266425e27414524c9e41016d77392e451fdd79aae79abe50156a51060f0d4417",
   "best_params": {
-    "clf__C": 0.5
+    "clf__C": 1.0
   },
-  "best_cv_f1_macro": 0.9517280327548949
+  "best_cv_f1_macro": 0.8435565046264074
 }

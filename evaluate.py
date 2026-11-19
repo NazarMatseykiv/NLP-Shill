@@ -1,13 +1,17 @@
 import json
 from pathlib import Path
 
+import pandas as pd
 from src.data_quality import analyze_dataset
 from src.evaluation import resolve_data_path
 from src.menu import MenuMatcher
+from src.preprocess import normalize_text
 from src.slots import SlotExtractor
-from sklearn.model_selection import cross_val_score
+from sklearn.metrics import accuracy_score, f1_score
+from sklearn.model_selection import cross_val_predict, cross_val_score
+from sklearn.model_selection import StratifiedGroupKFold
 
-from src.intent_model import build_intent_pipeline, load_intent_data
+from src.intent_model import build_intent_pipeline, load_intent_dataset
 
 ROOT = Path(__file__).resolve().parent
 
@@ -51,12 +55,117 @@ SLOT_TEST_CASES = [
     },
 ]
 
+SLOT_DISH_CASES = [
+    ("борщ", "Borscht / Борщ"),
+    ("varenyky", "Varenyky / Вареники"),
+    ("pizza", "Pizza Margherita"),
+    ("salad", "Caesar Salad"),
+    ("burger", "Burger"),
+    ("fries", "French Fries"),
+    ("coffee", "Coffee"),
+    ("sushi", "Sushi Roll"),
+    ("tacos", "Tacos"),
+    ("pasta", "Pasta"),
+]
+
+SLOT_TEMPLATES = [
+    ("Хочу {qty} {dish} на вул. Шевченка {number}", "вул. Шевченка"),
+    ("Please bring {qty} {dish} to {number} Main Street", "Main Street"),
+    ("На вул. Франка {number}, будь ласка, {qty} {dish}", "вул. Франка"),
+    ("Order {qty} {dish} to {number} Oak Road", "Oak Road"),
+    ("Привезіть {qty} {dish}, адреса: проспект Перемоги {number}", "проспект Перемоги"),
+    ("Could you deliver {qty} {dish} to {number} Park Avenue?", "Park Avenue"),
+    ("Для доставки на Хрещатик {number} додайте {qty} {dish}", "Хрещатик"),
+    ("Send {qty} {dish} to {number} River Street", "River Street"),
+    ("Доставте {qty} {dish} на вул. Соборна {number}", "вул. Соборна"),
+    ("At {number} Baker Street, I'd like {qty} {dish}", "Baker Street"),
+]
+
+QUANTITY_FORMS = {
+    1: ["1", "one", "один"],
+    2: ["2", "two", "два"],
+    3: ["3", "three", "три"],
+    4: ["4", "four", "чотири"],
+    5: ["5", "five", "п'ять"],
+}
+
+
+def build_slot_eval_cases() -> list[dict]:
+    cases = []
+    for template_idx, (template, street) in enumerate(SLOT_TEMPLATES):
+        for dish_idx, (dish, dish_name) in enumerate(SLOT_DISH_CASES):
+            quantity = dish_idx % len(QUANTITY_FORMS) + 1
+            number = 10 + template_idx * len(SLOT_DISH_CASES) + dish_idx
+            text = template.format(
+                qty=QUANTITY_FORMS[quantity][template_idx % 3],
+                dish=dish,
+                number=number,
+            )
+            if template_idx in (1, 3, 5, 7, 9):
+                address = f"{number} {street}"
+            else:
+                address = f"{street} {number}"
+            cases.append({
+                "text": text,
+                "dish_name": dish_name,
+                "quantity": quantity,
+                "address": address,
+            })
+    return cases
+
+
+def slot_f1(cases: list[dict], predictions: list[dict]) -> dict:
+    scores = {}
+    for slot_name, expected_key, predicted_key in (
+        ("dishes", "dish_name", "dishes"),
+        ("quantities", "quantity", "dishes"),
+        ("addresses", "address", "address"),
+    ):
+        tp = fp = fn = 0
+        for index, (case, result) in enumerate(zip(cases, predictions)):
+            if slot_name == "dishes":
+                expected = {(index, case[expected_key])}
+                predicted = {
+                    (index, item["dish_name"]) for item in result[predicted_key]
+                }
+            elif slot_name == "quantities":
+                expected = {(index, case["dish_name"], case[expected_key])}
+                predicted = {
+                    (index, item["dish_name"], item["quantity"])
+                    for item in result[predicted_key]
+                }
+            else:
+                expected = {(index, case[expected_key].casefold())}
+                actual = result[predicted_key]
+                predicted = (
+                    {(index, actual.casefold())} if actual else set()
+                )
+            tp += len(expected & predicted)
+            fp += len(predicted - expected)
+            fn += len(expected - predicted)
+        precision = tp / (tp + fp) if tp + fp else 0.0
+        recall = tp / (tp + fn) if tp + fn else 0.0
+        scores[slot_name] = {
+            "precision": precision,
+            "recall": recall,
+            "f1": 2 * precision * recall / (precision + recall)
+            if precision + recall else 0.0,
+            "true_positives": tp,
+            "false_positives": fp,
+            "false_negatives": fn,
+        }
+    return scores
+
 
 def evaluate_intent_cv(model_name: str, feature_set: str) -> dict:
     data = resolve_data_path(ROOT)
-    texts, labels = load_intent_data(data)
+    texts, labels, groups = load_intent_dataset(data)
     pipe = build_intent_pipeline(model_name, feature_set)
-    scores = cross_val_score(pipe, texts, labels, cv=5, scoring="f1_macro", n_jobs=-1)
+    cv = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=42)
+    splits = list(cv.split(texts, labels, groups))
+    scores = cross_val_score(
+        pipe, texts, labels, cv=splits, scoring="f1_macro", n_jobs=-1
+    )
     return {
         "model": model_name,
         "feature_set": feature_set,
@@ -67,9 +176,71 @@ def evaluate_intent_cv(model_name: str, feature_set: str) -> dict:
     }
 
 
+def evaluate_entity_masking_cv(model_name: str, feature_set: str) -> dict:
+    data = resolve_data_path(ROOT)
+    df = pd.read_csv(data)
+    masked_texts, labels, groups = load_intent_dataset(data)
+    unmasked_texts = [
+        normalize_text(text, mask_entities=False) for text in df["text"].astype(str)
+    ]
+    cv = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=42)
+    splits = list(cv.split(masked_texts, labels, groups))
+    scores = {}
+    for name, texts in (
+        ("masked", masked_texts),
+        ("unmasked", unmasked_texts),
+    ):
+        model = build_intent_pipeline(model_name, feature_set)
+        values = cross_val_score(
+            model, texts, labels, cv=splits, scoring="f1_macro", n_jobs=-1
+        )
+        scores[name] = [float(value) for value in values]
+    return {
+        "cv_folds": len(splits),
+        "masked_f1_macro": scores["masked"],
+        "unmasked_f1_macro": scores["unmasked"],
+        "masked_mean": sum(scores["masked"]) / len(scores["masked"]),
+        "unmasked_mean": sum(scores["unmasked"]) / len(scores["unmasked"]),
+        "mean_delta": (
+            sum(scores["masked"]) - sum(scores["unmasked"])
+        ) / len(scores["masked"]),
+    }
+
+
+def evaluate_transliteration_cv(model_name: str, feature_set: str) -> dict:
+    data = resolve_data_path(ROOT)
+    df = pd.read_csv(data)
+    texts, labels, groups = load_intent_dataset(data)
+    if "lang" not in df.columns:
+        return {"support": 0}
+    translit_mask = df["lang"].astype(str).eq("TRANSLIT").to_numpy()
+    if not translit_mask.any():
+        return {"support": 0}
+    cv = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=42)
+    splits = list(cv.split(texts, labels, groups))
+    predictions = cross_val_predict(
+        build_intent_pipeline(model_name, feature_set),
+        texts,
+        labels,
+        cv=splits,
+        n_jobs=-1,
+    )
+    y_true = [label for label, keep in zip(labels, translit_mask) if keep]
+    y_pred = [label for label, keep in zip(predictions, translit_mask) if keep]
+    return {
+        "support": len(y_true),
+        "accuracy": float(accuracy_score(y_true, y_pred)),
+        "f1_macro": float(f1_score(y_true, y_pred, average="macro", zero_division=0)),
+    }
+
+
 def evaluate_slots() -> dict:
     menu = MenuMatcher(ROOT / "data" / "menu.json")
     extractor = SlotExtractor(menu)
+    labeled_cases = build_slot_eval_cases()
+    labeled_predictions = [
+        extractor.extract(case["text"]).to_dict() for case in labeled_cases
+    ]
     passed = 0
     details = []
     for case in SLOT_TEST_CASES:
@@ -99,6 +270,8 @@ def evaluate_slots() -> dict:
         "slot_tests_total": len(SLOT_TEST_CASES),
         "slot_tests_passed": passed,
         "slot_accuracy": passed / len(SLOT_TEST_CASES),
+        "slot_annotated_messages": len(labeled_cases),
+        "slot_f1": slot_f1(labeled_cases, labeled_predictions),
         "details": details,
     }
 
@@ -119,6 +292,14 @@ def main() -> None:
     intent_cv = evaluate_intent_cv(model_name, feature_set)
     print(json.dumps(intent_cv, ensure_ascii=False, indent=2))
 
+    print("\nEntity masking ablation (same grouped folds)...")
+    masking_cv = evaluate_entity_masking_cv(model_name, feature_set)
+    print(json.dumps(masking_cv, ensure_ascii=False, indent=2))
+
+    print("\nTransliteration grouped-CV subset...")
+    transliteration_cv = evaluate_transliteration_cv(model_name, feature_set)
+    print(json.dumps(transliteration_cv, ensure_ascii=False, indent=2))
+
     print("\nSlot extraction...")
     slot_eval = evaluate_slots()
     print(json.dumps(slot_eval, ensure_ascii=False, indent=2))
@@ -129,6 +310,8 @@ def main() -> None:
             {
                 "data_quality": quality,
                 "intent_cv": intent_cv,
+                "entity_masking_cv": masking_cv,
+                "transliteration_cv": transliteration_cv,
                 "slots": slot_eval,
             },
             ensure_ascii=False,

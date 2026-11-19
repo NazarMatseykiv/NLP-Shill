@@ -437,6 +437,173 @@ def generate(n_per_intent: int, seed: int, menu: str | None) -> list[dict]:
             seen.add(key)
             rows.append({"text": text, "intent": intent, "lang": "UA" if re.search("[а-яі]", text.lower()) else "EN",
                          "source": "hard_case", "group": f"hard:{i}"})
+
+    curated_faq = [
+        ("payment", "UA", "Якщо візьму борщ і салат, можна розрахуватися Apple Pay?"),
+        ("payment", "UA", "Кур'єр має термінал чи краще підготувати готівку?"),
+        ("payment", "UA", "Гроші списуються одразу під час оформлення чи вже після доставки?"),
+        ("payment", "EN", "Can I split the bill between cash and a card?"),
+        ("payment", "EN", "Do you charge the card when I place the order or when it arrives?"),
+        ("payment", "MIX", "Чи проходить Google Pay для замовлення онлайн?"),
+        ("allergens", "UA", "У піці пепероні є молоко або інші алергени?"),
+        ("allergens", "UA", "Чи готуєте картоплю фрі в тій самій олії, що й страви з глютеном?"),
+        ("allergens", "UA", "Де подивитися повний склад вареників, зокрема можливі сліди горіхів?"),
+        ("allergens", "EN", "Is the Caesar salad safe for someone with an egg allergy?"),
+        ("allergens", "EN", "Could you tell me whether the burger buns contain sesame?"),
+        ("allergens", "MIX", "Does Pizza Margherita contain lactose?"),
+        ("delivery", "UA", "Підкажіть, до котрої години сьогодні возите на Садгору?"),
+        ("delivery", "UA", "Скільки зазвичай їде кур'єр до університетського кампусу?"),
+        ("delivery", "UA", "На околиці теж доставляєте чи тільки в межах центру?"),
+        ("delivery", "EN", "Would a delivery to the airport area take much longer than usual?"),
+        ("delivery", "EN", "Do you still deliver to the suburbs after 9 pm?"),
+        ("delivery", "EN", "Is there a separate delivery charge for the old town?"),
+        ("delivery", "MIX", "А в Рогізну кур'єр їде у вихідні?"),
+        ("delivery", "TRANSLIT", "do yakoyi hodyny dostavliaiete v tsentr?"),
+        ("minimum", "UA", "Яку найменшу суму треба набрати, щоб кур'єр виїхав?"),
+        ("minimum", "UA", "Якщо замовлю лише каву, оформлення пройде чи є мінімалка?"),
+        ("minimum", "UA", "Є мінімальна вартість кошика для доставки на Шевченка?"),
+        ("minimum", "EN", "Is there a minimum spend before delivery becomes available?"),
+        ("minimum", "EN", "Could I order just one portion of fries, or is there a minimum?"),
+        ("hours", "UA", "Ви приймаєте замовлення після опівночі у п'ятницю?"),
+        ("hours", "UA", "А на Великдень кухня працюватиме за звичним графіком?"),
+        ("hours", "UA", "О котрій відкриваєтесь у неділю?"),
+        ("hours", "EN", "Are you open on public holidays, and when does the kitchen close?"),
+        ("hours", "EN", "Can I place an order before your doors open for lunch?"),
+        ("hours", "TRANSLIT", "koli vy vidkryvaietesia v nediliu?"),
+        ("refunds", "UA", "Як повернути гроші, якщо оплатив онлайн, а замовлення скасували?"),
+        ("refunds", "UA", "Піца приїхала холодна — куди написати щодо компенсації?"),
+        ("refunds", "UA", "Скільки чекати на повернення коштів після помилкового списання?"),
+        ("refunds", "UA", "Замовлення ще не привезли, але статус завис: як подати скаргу?"),
+        ("refunds", "EN", "What is your refund policy if an item is missing from my order?"),
+        ("refunds", "EN", "The burger arrived damaged; can I request a refund or replacement?"),
+        ("hard_negative", "UA", "Чи можна оплатити замовлення карткою, якщо в кошику тільки борщ?"),
+        ("hard_negative", "UA", "У вас є алергени в салаті цезарі, чи можна замовити без яєць?"),
+        ("hard_negative", "UA", "Чи доставляєте піцу на Героїв Майдану і скільки це коштує?"),
+        ("hard_negative", "UA", "Яка мінімальна сума замовлення на вареники?"),
+        ("hard_negative", "UA", "Чи повертаєте кошти, коли замовлення запізнилося?"),
+        ("hard_negative", "EN", "Can I get a refund for a cold Pizza Pepperoni, and how long does it take?"),
+        ("hard_negative", "EN", "What time can I order a burger, and do you deliver to the campus?"),
+        ("hard_negative", "EN", "Is the minimum order amount different if I only want coffee?"),
+        ("hard_negative", "MIX", "Замовлення з French Fries можна оплатити готівкою кур'єру?"),
+        ("hard_negative", "TRANSLIT", "chi ye alerheny u borshchi?"),
+        ("hard_negative", "TRANSLIT", "yak povernuty hroshi za zamovlennia?"),
+        ("hard_negative", "TRANSLIT", "yak zminyty adresu v zamovlenni?"),
+    ]
+    for topic, lang, text in curated_faq:
+        key = norm_key(text)
+        if key not in seen:
+            seen.add(key)
+            rows.append({
+                "text": text,
+                "intent": "faq",
+                "lang": lang,
+                "source": "curated",
+                "group": f"faq:curated:{topic}",
+            })
+
+    curated_other = [
+        ("weather", "UA", "Якою буде погода в Одесі на вихідних?"),
+        ("weather", "UA", "Чи варто завтра брати парасолю?"),
+        ("weather", "EN", "Will it be sunny in London this afternoon?"),
+        ("weather", "EN", "What is the temperature in Toronto right now?"),
+        ("jokes", "UA", "Розкажи короткий жарт про програмістів."),
+        ("jokes", "UA", "Можеш придумати смішний тост?"),
+        ("jokes", "EN", "Tell me a clean joke for a birthday party."),
+        ("jokes", "EN", "Make up a funny one-liner about cats."),
+        ("travel", "UA", "Як дістатися від вокзалу до аеропорту?"),
+        ("travel", "UA", "Коли відправляється наступний потяг до Львова?"),
+        ("travel", "EN", "Find me a train from Berlin to Prague."),
+        ("travel", "EN", "How long is the flight to Madrid?"),
+        ("math", "UA", "Скільки буде 17 помножити на 23?"),
+        ("math", "UA", "Порахуй, будь ласка, 145 мінус 68."),
+        ("math", "EN", "What is the square root of 256?"),
+        ("math", "EN", "Convert 72 Fahrenheit to Celsius."),
+        ("translation", "UA", "Переклади слово «umbrella» українською."),
+        ("translation", "UA", "Як англійською сказати «дякую за допомогу»?"),
+        ("translation", "EN", "Translate bonjour into English."),
+        ("translation", "EN", "What does the Polish word proszę mean?"),
+        ("entertainment", "UA", "Порадь детективний серіал на вечір."),
+        ("entertainment", "UA", "Який альбом випустив гурт Океан Ельзи першим?"),
+        ("entertainment", "EN", "Recommend a science-fiction movie from the 1990s."),
+        ("entertainment", "EN", "Who directed the film Spirited Away?"),
+        ("finance", "UA", "Який зараз курс євро до гривні?"),
+        ("finance", "UA", "Поясни простими словами, що таке складний відсоток."),
+        ("finance", "EN", "What was the price of gold yesterday?"),
+        ("finance", "EN", "How do I make a monthly household budget?"),
+        ("writing", "UA", "Допоможи скласти ввічливий лист викладачу."),
+        ("writing", "UA", "Напиши чотири рядки про осінній ліс."),
+        ("writing", "EN", "Draft a short thank-you note for my neighbor."),
+        ("writing", "EN", "Suggest a title for a presentation about climate change."),
+        ("knowledge", "UA", "Хто написав «Місто» Валер'яна Підмогильного?"),
+        ("knowledge", "UA", "Яка столиця Португалії?"),
+        ("knowledge", "EN", "Why is the sky blue?"),
+        ("knowledge", "EN", "Who was the first person to walk on the Moon?"),
+        ("account", "UA", "Як змінити пароль у пошті?"),
+        ("account", "UA", "Не можу увійти у свій банківський застосунок, що робити?"),
+        ("account", "EN", "How do I recover access to my social media account?"),
+        ("account", "EN", "Can you help me set up two-factor authentication?"),
+        ("devices", "UA", "Як під'єднати бездротові навушники до ноутбука?"),
+        ("devices", "UA", "Чому телефон швидко розряджається?"),
+        ("devices", "EN", "My printer is offline; how can I reconnect it?"),
+        ("devices", "EN", "Which laptop is good for photo editing?"),
+        ("sports", "UA", "Хто виграв учорашній матч збірної України?"),
+        ("sports", "UA", "Поясни правила офсайду у футболі."),
+        ("sports", "EN", "When is the next Formula One race?"),
+        ("sports", "EN", "Who holds the women's marathon world record?"),
+        ("account", "UA", "Як відновити доступ до електронної пошти, якщо забув пароль?"),
+        ("account", "EN", "Could you help me change the password for my email account?"),
+        ("account", "EN", "I cannot sign in to my bank app; how do I unlock it?"),
+        ("media", "UA", "Увімкни спокійну музику для роботи."),
+        ("media", "EN", "Play a relaxing jazz playlist while I work."),
+        ("media", "EN", "Can you recommend a podcast about history?"),
+        ("shopping", "UA", "У якому магазині продають недорогі ноутбуки?"),
+        ("shopping", "EN", "Where can I compare prices for a new laptop?"),
+        ("shopping", "EN", "Find a store that sells wireless headphones."),
+        ("time_tools", "UA", "Нагадай мені зателефонувати о сьомій ранку."),
+        ("time_tools", "EN", "Set a reminder for my dentist appointment tomorrow."),
+        ("travel", "UA", "Де купити квиток на потяг до Києва?"),
+        ("travel", "UA", "Скільки коштує проїзд автобусом до аеропорту?"),
+        ("travel", "EN", "Where can I book a flight to Warsaw?"),
+        ("food_general", "UA", "Як приготувати борщ удома з нуля?"),
+        ("food_general", "UA", "Хто першим придумав суші?"),
+        ("food_general", "EN", "How do I make pizza dough at home?"),
+        ("food_general", "EN", "Translate the word burger into French."),
+        ("food_general", "EN", "What is the history of pad thai?"),
+        ("writing", "EN", "Write a short poem about a rainy afternoon."),
+        ("knowledge", "UA", "Чому листя змінює колір восени?"),
+        ("sports", "EN", "What time does the tennis final start tomorrow?"),
+    ]
+    for topic, lang, text in curated_other:
+        key = norm_key(text)
+        if key not in seen:
+            seen.add(key)
+            rows.append({
+                "text": text,
+                "intent": "other",
+                "lang": lang,
+                "source": "curated",
+                "group": f"other:curated:{topic}",
+            })
+
+    curated_translit_tracking = [
+        "de moie zamovlennia?",
+        "koly pryide kurier?",
+        "perevir status zamovlennia 7281",
+        "kuryer vzhe vyikhav?",
+        "skilky shche chekati na dostavku?",
+        "mii zakaz SH-8421 de?",
+    ]
+    for text in curated_translit_tracking:
+        key = norm_key(text)
+        if key not in seen:
+            seen.add(key)
+            rows.append({
+                "text": text,
+                "intent": "track_order",
+                "lang": "TRANSLIT",
+                "source": "curated",
+                "group": "track_order:curated:translit",
+            })
     return rows
 
 
@@ -452,7 +619,6 @@ def merge_existing(rows: list[dict], path: str) -> list[dict]:
         toks = key.split()
         has_cyr, has_lat = bool(re.search("[а-яіїєґ]", key)), bool(re.search("[a-z]", key))
         lang = "MIX" if has_cyr and has_lat else ("UA" if has_cyr else "EN")
-        # Груба евристика «шаблону» для оригіналів: інтент + перші два слова
         group = f"orig:{y}:{' '.join(toks[:2])}"
         added.append({"text": t, "intent": y, "lang": lang, "source": "original", "group": group})
     return rows + added

@@ -72,6 +72,34 @@ STOP_TOKENS = {
     "want",
     "order",
     "please",
+    "hi",
+    "hello",
+    "could",
+    "would",
+    "bring",
+    "delivered",
+    "deliver",
+    "want",
+    "like",
+    "send",
+    "need",
+    "can",
+    "you",
+    "your",
+    "i'd",
+    "i",
+    "for",
+    "at",
+    "by",
+    "address",
+    "is",
+    "the",
+    "будь",
+    "ласка",
+    "доставки",
+    "для",
+    "додайте",
+    "адреса",
 }
 
 PAYMENT_PATTERNS = [
@@ -96,7 +124,7 @@ ADDRESS_PATTERNS = [
         re.I | re.UNICODE,
     ),
     re.compile(
-        r"\b\d{1,5}\s+[\w'’\-]+(?:\s+[\w'’\-]+){0,3}\s+"
+        r"\b\d{1,5}\s+[\w'’\-]+(?:\s+[\w'’\-]+){0,2}\s+"
         r"(?:street|st\.?|road|rd\.?|avenue|ave\.?|lane|drive|dr\.?|boulevard|blvd\.?)\b",
         re.I,
     ),
@@ -199,7 +227,7 @@ class SlotExtractor:
         return 1
 
     def extract(self, text: str) -> OrderSlots:
-        text_n = normalize_text(text)
+        text_n = normalize_text(text, mask_entities=False)
         slots = OrderSlots()
 
         payment_text = None
@@ -248,7 +276,9 @@ class SlotExtractor:
             time_text,
         ):
             if s:
-                text_n = text_n.replace(normalize_text(s), " ")
+                text_n = text_n.replace(
+                    normalize_text(s, mask_entities=False), " "
+                )
 
         address_match = None
         for pattern in ADDRESS_PATTERNS:

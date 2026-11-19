@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import argparse
+from importlib.util import find_spec
 import json
 import random
 import re
+import sys
 import time
-import unicodedata
 from pathlib import Path
 
 import joblib
@@ -16,31 +17,41 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.stats import binomtest
-from sklearn.base import BaseEstimator, ClassifierMixin, clone
+from sklearn.base import BaseEstimator, ClassifierMixin, TransformerMixin, clone
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score
-from sklearn.model_selection import (StratifiedGroupKFold, StratifiedKFold,
-                                     cross_val_score, train_test_split)
+from sklearn.model_selection import (StratifiedGroupKFold, cross_val_score,
+                                     train_test_split)
 from sklearn.naive_bayes import ComplementNB
 from sklearn.pipeline import FeatureUnion, Pipeline
 from sklearn.svm import LinearSVC
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from src.menu import MenuMatcher
+from src.preprocess import normalize_text as normalize_entities
+
 SEED = 42
 CYR = re.compile(r"[а-яіїєґ]", re.IGNORECASE)
+MENU = MenuMatcher(ROOT / "data" / "menu.json")
 
 # Дані та препроцесинг
 def normalize_text(text: str) -> str:
-    text = unicodedata.normalize("NFC", str(text).strip().lower())
-    return re.sub(r"\s+", " ", text)
+    return normalize_entities(str(text), MENU)
 
 
 def load_data(path: Path):
     """Повертає texts, labels, groups (groups=None, якщо колонки group немає)."""
     df = pd.read_csv(path)
     texts = [normalize_text(t) for t in df["text"].astype(str)]
-    groups = df["group"].astype(str).tolist() if "group" in df.columns else None
+    groups = (
+        df["group"].astype(str).tolist()
+        if "group" in df.columns
+        else [f"{label}:{text}" for label, text in zip(df["intent"], texts)]
+    )
     return texts, df["intent"].astype(str).tolist(), groups
 
 
@@ -82,7 +93,7 @@ class RuleBaseline(BaseEstimator, ClassifierMixin):
     def predict(self, X):
         out = []
         for t in X:
-            label = "faq"
+            label = "other"
             for name, pat in self.RULES:
                 if re.search(pat, t):
                     label = name
@@ -110,32 +121,48 @@ def build_models(with_embeddings: bool) -> dict:
     }
     if with_embeddings:
         try:
+            if find_spec("sentence_transformers") is None:
+                raise ImportError("sentence-transformers is not installed")
+
             models["embeddings_logreg"] = make_embedding_model()
+            models["hybrid_embeddings_logreg"] = make_hybrid_embedding_model()
         except Exception as exc:  # бібліотеки/мережі немає
             print(f"[skip] embeddings: {exc}")
     return models
 
 
+class SentenceEmbeddingTransformer(BaseEstimator, TransformerMixin):
+    def __init__(self, name="paraphrase-multilingual-MiniLM-L12-v2"):
+        self.name = name
+        self._model = None
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        if self._model is None:
+            from sentence_transformers import SentenceTransformer
+
+            self._model = SentenceTransformer(self.name)
+        return self._model.encode(list(X), show_progress_bar=False)
+
+
 def make_embedding_model() -> Pipeline:
     """Мультимовні ембедінги + LogReg (потрібен sentence-transformers)."""
-    from sentence_transformers import SentenceTransformer
-    from sklearn.base import TransformerMixin
-
-    class Embedder(BaseEstimator, TransformerMixin):
-        def __init__(self, name="paraphrase-multilingual-MiniLM-L12-v2"):
-            self.name = name
-            self._model = None
-
-        def fit(self, X, y=None):
-            return self
-
-        def transform(self, X):
-            if self._model is None:
-                self._model = SentenceTransformer(self.name)
-            return self._model.encode(list(X), show_progress_bar=False)
-
-    return Pipeline([("emb", Embedder()),
+    return Pipeline([("emb", SentenceEmbeddingTransformer()),
                      ("clf", LogisticRegression(max_iter=3000, class_weight="balanced"))])
+
+
+def make_hybrid_embedding_model() -> Pipeline:
+    """Спільні TF-IDF та ембедінги, щоб зберегти лексичні і семантичні ознаки."""
+    features = FeatureUnion([
+        ("tfidf", combined_vec()),
+        ("embeddings", SentenceEmbeddingTransformer()),
+    ])
+    return Pipeline([
+        ("features", features),
+        ("clf", LogisticRegression(max_iter=3000, class_weight="balanced")),
+    ])
 
 
 # Метрики: bootstrap CI, McNemar, затримка
@@ -208,18 +235,12 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
 
     texts, labels, groups = load_data(Path(args.data))
-    if groups is not None:
-        sgkf = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=SEED)
-        tr_idx, te_idx = next(sgkf.split(texts, labels, groups))
-        X_tr = [texts[i] for i in tr_idx]; y_tr = [labels[i] for i in tr_idx]
-        g_tr = [groups[i] for i in tr_idx]
-        X_te = [texts[i] for i in te_idx]; y_te = [labels[i] for i in te_idx]
-        print("Розбиття: за групами шаблонів (StratifiedGroupKFold)")
-    else:
-        X_tr, X_te, y_tr, y_te = train_test_split(
-            texts, labels, test_size=0.2, random_state=SEED, stratify=labels)
-        g_tr = None
-        print("Розбиття: випадкове стратифіковане (колонки group немає)")
+    sgkf = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=SEED)
+    tr_idx, te_idx = next(sgkf.split(texts, labels, groups))
+    X_tr = [texts[i] for i in tr_idx]; y_tr = [labels[i] for i in tr_idx]
+    g_tr = [groups[i] for i in tr_idx]
+    X_te = [texts[i] for i in te_idx]; y_te = [labels[i] for i in te_idx]
+    print("Розбиття: за групами шаблонів (StratifiedGroupKFold)")
     print(f"train={len(X_tr)} test={len(X_te)} classes={sorted(set(labels))}")
 
     ood = None
@@ -230,10 +251,7 @@ def main() -> None:
         print(f"OOD-тест (ручний): {len(ood[0])} прикладів")
 
     models = build_models(args.embeddings)
-    if g_tr is not None:
-        cv = StratifiedGroupKFold(n_splits=args.cv, shuffle=True, random_state=SEED)
-    else:
-        cv = StratifiedKFold(n_splits=args.cv, shuffle=True, random_state=SEED)
+    cv = StratifiedGroupKFold(n_splits=args.cv, shuffle=True, random_state=SEED)
 
     rows, preds = [], {}
     fitted = {}
@@ -318,7 +336,11 @@ def main() -> None:
               open(out / "noise_robustness.json", "w"), indent=2)
 
     fracs = [0.1, 0.2, 0.4, 0.6, 0.8, 1.0]
-    curve = {n: [] for n in models if n != "rules"}
+    curve = {
+        n: []
+        for n in models
+        if n not in ("rules", "embeddings_logreg", "hybrid_embeddings_logreg")
+    }
     for f in fracs:
         for name in curve:
             vals = []

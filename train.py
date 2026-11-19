@@ -1,4 +1,5 @@
 import json
+import hashlib
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -33,7 +34,20 @@ def main() -> None:
         print("Підказка: python scripts/download_datasets.py")
 
     model_name, feature_set = load_config()
+    tuning_path = ROOT / "models" / "tuning_results.json"
+    model_params = {}
+    if tuning_path.exists():
+        tuning = json.loads(tuning_path.read_text(encoding="utf-8"))
+        if (
+            tuning.get("model_name") == model_name
+            and tuning.get("feature_set") == feature_set
+            and tuning.get("data_sha256")
+            == hashlib.sha256(data_path.read_bytes()).hexdigest()
+        ):
+            model_params = tuning.get("best_params", {})
     print(f"Навчання: {model_name} + {feature_set} ({data_path.name})")
+    if model_params:
+        print(f"Параметри з останнього tune_model.py: {model_params}")
 
     stats = train_intent_model(
         data_path,
@@ -41,6 +55,7 @@ def main() -> None:
         model_name=model_name,
         feature_set=feature_set,
         test_size=0.2,
+        model_params=model_params,
     )
 
     METRICS.write_text(
@@ -50,8 +65,9 @@ def main() -> None:
                 "model_name": model_name,
                 "feature_set": feature_set,
                 "data_path": str(data_path),
-                "total_samples": stats["train_size"] + stats["test_size"],
+                "total_samples": stats["train_size"],
                 "train_size": stats["train_size"],
+                "evaluation_train_size": stats["evaluation_train_size"],
                 "test_size": stats["test_size"],
                 "cv_folds": stats["cv_folds"],
                 "cv_accuracy_mean": stats["cv_accuracy_mean"],
@@ -75,7 +91,10 @@ def main() -> None:
     print(f"Метрики: {METRICS}")
     print("\n--- Classification report ---\n")
     print(stats["report_text"])
-    print("\nДалі: python tune_model.py -> python scripts/generate_ml_report.py")
+    print(
+        "\nДалі: python experiments/confidence_threshold.py -> "
+        "python scripts/generate_ml_report.py"
+    )
 
 
 if __name__ == "__main__":

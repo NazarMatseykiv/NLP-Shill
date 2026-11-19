@@ -1,12 +1,12 @@
 import json
+import hashlib
 from datetime import datetime
 from pathlib import Path
 
-import joblib
-from sklearn.model_selection import GridSearchCV, StratifiedKFold
+from sklearn.model_selection import GridSearchCV, StratifiedGroupKFold
 
 from src.evaluation import build_best_pipeline, resolve_data_path
-from src.intent_model import load_intent_data
+from src.intent_model import load_intent_dataset
 
 ROOT = Path(__file__).resolve().parent
 
@@ -40,7 +40,7 @@ def main() -> None:
         model_name = "logistic_regression"
 
     data_path = resolve_data_path(ROOT)
-    texts, labels = load_intent_data(data_path)
+    texts, labels, groups = load_intent_dataset(data_path)
     pipe = build_best_pipeline(model_name, feature_set)
     grid = param_grid_for(model_name)
 
@@ -52,44 +52,27 @@ def main() -> None:
     search = GridSearchCV(
         pipe,
         grid,
-        cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=42),
+        cv=StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=42),
         scoring="f1_macro",
         n_jobs=-1,
         refit=True,
     )
-    search.fit(texts, labels)
+    search.fit(texts, labels, groups=groups)
 
     out = {
         "tuned_at": datetime.now().isoformat(timespec="seconds"),
         "model_name": model_name,
         "feature_set": feature_set,
+        "data_sha256": hashlib.sha256(data_path.read_bytes()).hexdigest(),
         "best_params": search.best_params_,
         "best_cv_f1_macro": float(search.best_score_),
     }
     tuned_path = ROOT / "models" / "tuning_results.json"
     tuned_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    model_path = ROOT / "models" / "intent_model.joblib"
-    joblib.dump(search.best_estimator_, model_path)
-
-    best_cfg = ROOT / "models" / "best_config.json"
-    best_cfg.write_text(
-        json.dumps(
-            {
-                "model_name": model_name,
-                "feature_set": feature_set,
-                "best_params": search.best_params_,
-                "tuned": True,
-            },
-            ensure_ascii=False,
-            indent=2,
-        ),
-        encoding="utf-8",
-    )
-
     print(f"Best CV F1 macro: {search.best_score_:.4f}")
     print(f"Best params: {search.best_params_}")
-    print(f"Model saved: {model_path}")
+    print("Тренувальну модель не змінено; застосуйте параметри через python train.py")
     print(f"Tuning log: {tuned_path}")
 
 

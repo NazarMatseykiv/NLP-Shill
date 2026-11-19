@@ -1,32 +1,36 @@
 {
   "data_quality": {
-    "path": "C:\\Users\\NazarM\\food-delivery-nlp\\data\\intents_merged.csv",
-    "total_samples": 643,
-    "unique_intents": 4,
+    "path": "G:\\VI\\NLP-Shill\\data\\intents_merged.csv",
+    "total_samples": 2911,
+    "unique_intents": 5,
     "intent_distribution": {
-      "create_order": {
-        "count": 211,
-        "share": 0.3281
+      "faq": {
+        "count": 695,
+        "share": 0.2387
       },
-      "track_order": {
-        "count": 146,
-        "share": 0.2271
+      "create_order": {
+        "count": 859,
+        "share": 0.2951
       },
       "cancel_order": {
-        "count": 141,
-        "share": 0.2193
+        "count": 638,
+        "share": 0.2192
       },
-      "faq": {
-        "count": 145,
-        "share": 0.2255
+      "track_order": {
+        "count": 649,
+        "share": 0.2229
+      },
+      "other": {
+        "count": 70,
+        "share": 0.024
       }
     },
-    "class_imbalance_ratio": 1.5,
-    "duplicate_texts": 0,
+    "class_imbalance_ratio": 12.27,
+    "duplicate_texts": 273,
     "completeness_empty_text": 0,
-    "avg_tokens": 7.28,
+    "avg_tokens": 7.43,
     "min_tokens": 1,
-    "max_tokens": 19,
+    "max_tokens": 27,
     "quality_notes": {
       "accuracy": "Тексти нормалізовані (lower, NFC); дублікати видаляються при merge",
       "completeness": "Порожні рядки відсутні",
@@ -36,22 +40,74 @@
   },
   "intent_cv": {
     "model": "linear_svc",
-    "feature_set": "combined",
+    "feature_set": "char",
     "cv_folds": 5,
-    "f1_macro_mean": 0.8730983711495046,
-    "f1_macro_std": 0.1568879631278586,
+    "f1_macro_mean": 0.8435565046264074,
+    "f1_macro_std": 0.040394068775500766,
     "f1_macro_scores": [
-      0.5603021978021978,
-      0.9487081524950587,
-      0.9299916099337954,
-      0.9599869876382563,
-      0.9665029078782148
+      0.8763718652771336,
+      0.8929470603238668,
+      0.8175965365596598,
+      0.7808907614638461,
+      0.849976299507531
     ]
   },
+  "entity_masking_cv": {
+    "cv_folds": 5,
+    "masked_f1_macro": [
+      0.8763718652771336,
+      0.8929470603238668,
+      0.8175965365596598,
+      0.7808907614638461,
+      0.849976299507531
+    ],
+    "unmasked_f1_macro": [
+      0.893736442787939,
+      0.8776965036282472,
+      0.8399252454331698,
+      0.7859973165476501,
+      0.7997605957937163
+    ],
+    "masked_mean": 0.8435565046264074,
+    "unmasked_mean": 0.8394232208381446,
+    "mean_delta": 0.004133283788262787
+  },
+  "transliteration_cv": {
+    "support": 212,
+    "accuracy": 0.8443396226415094,
+    "f1_macro": 0.8419246203722368
+  },
   "slots": {
-    "slot_tests_total": 3,
-    "slot_tests_passed": 3,
+    "slot_tests_total": 5,
+    "slot_tests_passed": 5,
     "slot_accuracy": 1.0,
+    "slot_annotated_messages": 100,
+    "slot_f1": {
+      "dishes": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "true_positives": 100,
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      "quantities": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "true_positives": 100,
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      "addresses": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "true_positives": 100,
+        "false_positives": 0,
+        "false_negatives": 0
+      }
+    },
     "details": [
       {
         "text": "Два борщі та салат на вул. Шевченка 12",
@@ -62,23 +118,23 @@
               "dish_id": 1,
               "dish_name": "Borscht / Борщ",
               "quantity": 2,
-              "raw": "борщ"
+              "raw": "борщі"
             },
             {
               "dish_id": 4,
               "dish_name": "Caesar Salad",
-              "quantity": 2,
+              "quantity": 1,
               "raw": "салат"
             }
           ],
-          "address": "Шевченка",
+          "address": "вул. шевченка 12",
           "payment": null,
           "comment": null,
           "time_hint": null
         }
       },
       {
-        "text": "Two burgers and fries delivered to 12 Main Street pay by card",
+        "text": "Two burgers and fries delivered to 12 Main Street pay by card, leave at the door",
         "ok": true,
         "slots": {
           "dishes": [
@@ -86,16 +142,64 @@
               "dish_id": 5,
               "dish_name": "Burger",
               "quantity": 2,
-              "raw": "burger"
+              "raw": "burgers"
             },
             {
               "dish_id": 6,
               "dish_name": "French Fries",
-              "quantity": 2,
+              "quantity": 1,
               "raw": "fries"
             }
           ],
-          "address": "12 Main Street",
+          "address": "12 main street",
+          "payment": "card",
+          "comment": "leave at the door",
+          "time_hint": null
+        }
+      },
+      {
+        "text": "На вул. Шевченка 12 хочу два бургери та піцу, карткою",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 5,
+              "dish_name": "Burger",
+              "quantity": 2,
+              "raw": "бургери"
+            },
+            {
+              "dish_id": 3,
+              "dish_name": "Pizza Margherita",
+              "quantity": 1,
+              "raw": "піцу"
+            }
+          ],
+          "address": "вул. шевченка 12",
+          "payment": "card",
+          "comment": null,
+          "time_hint": null
+        }
+      },
+      {
+        "text": "На вул. Шевченка 12 хочу піцу пепероні та four cheese pizza, карткою",
+        "ok": true,
+        "slots": {
+          "dishes": [
+            {
+              "dish_id": 30,
+              "dish_name": "Pizza Pepperoni / Піца Пепероні",
+              "quantity": 1,
+              "raw": "піцу пепероні"
+            },
+            {
+              "dish_id": 29,
+              "dish_name": "Pizza Quattro Formaggi / Піца 4 сири",
+              "quantity": 1,
+              "raw": "four cheese pizza"
+            }
+          ],
+          "address": "вул. шевченка 12",
           "payment": "card",
           "comment": null,
           "time_hint": null
@@ -113,7 +217,7 @@
               "raw": "pizza"
             }
           ],
-          "address": "5 Oak Avenue",
+          "address": "5 oak avenue",
           "payment": null,
           "comment": "no onions at",
           "time_hint": null

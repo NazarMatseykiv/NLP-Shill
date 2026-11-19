@@ -1,31 +1,35 @@
 {
   "path": "G:\\VI\\NLP-Shill\\data\\intents_merged.csv",
-  "total_samples": 2786,
-  "unique_intents": 4,
+  "total_samples": 2911,
+  "unique_intents": 5,
   "intent_distribution": {
     "faq": {
-      "count": 646,
-      "share": 0.2319
+      "count": 695,
+      "share": 0.2387
     },
     "create_order": {
       "count": 859,
-      "share": 0.3083
+      "share": 0.2951
     },
     "cancel_order": {
       "count": 638,
-      "share": 0.229
+      "share": 0.2192
     },
     "track_order": {
-      "count": 643,
-      "share": 0.2308
+      "count": 649,
+      "share": 0.2229
+    },
+    "other": {
+      "count": 70,
+      "share": 0.024
     }
   },
-  "class_imbalance_ratio": 1.35,
-  "duplicate_texts": 0,
+  "class_imbalance_ratio": 12.27,
+  "duplicate_texts": 273,
   "completeness_empty_text": 0,
-  "avg_tokens": 7.88,
+  "avg_tokens": 7.43,
   "min_tokens": 1,
-  "max_tokens": 28,
+  "max_tokens": 27,
   "quality_notes": {
     "accuracy": "Тексти нормалізовані (lower, NFC); дублікати видаляються при merge",
     "completeness": "Порожні рядки відсутні",

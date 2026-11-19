@@ -1,22 +1,69 @@
 from pathlib import Path
 
 import joblib
-import numpy as np
 import pandas as pd
+from sklearn.calibration import CalibratedClassifierCV
 from sklearn.metrics import classification_report
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedGroupKFold
 from sklearn.pipeline import Pipeline
 
+from .menu import MenuMatcher
 from .preprocess import normalize_text
 
-INTENT_LABELS = ("create_order", "track_order", "cancel_order", "faq")
+INTENT_LABELS = ("create_order", "track_order", "cancel_order", "faq", "other")
+
+
+def load_intent_dataset(
+    csv_path: Path, menu: MenuMatcher | None = None
+) -> tuple[list[str], list[str], list[str]]:
+    df = pd.read_csv(csv_path)
+    if menu is None:
+        menu_path = csv_path.parent / "menu.json"
+        if not menu_path.exists():
+            menu_path = Path(__file__).resolve().parents[1] / "data" / "menu.json"
+        menu = MenuMatcher(menu_path)
+    texts = [normalize_text(t, menu) for t in df["text"].astype(str)]
+    labels = df["intent"].astype(str).tolist()
+    groups = (
+        df["group"].astype(str).tolist()
+        if "group" in df.columns
+        else [f"{label}:{text}" for label, text in zip(labels, texts)]
+    )
+    return texts, labels, groups
 
 
 def load_intent_data(csv_path: Path) -> tuple[list[str], list[str]]:
-    df = pd.read_csv(csv_path)
-    texts = [normalize_text(t) for t in df["text"].astype(str)]
-    labels = df["intent"].astype(str).tolist()
+    texts, labels, _ = load_intent_dataset(csv_path)
     return texts, labels
+
+
+def make_group_splits(
+    texts: list[str],
+    labels: list[str],
+    groups: list[str],
+    cv_folds: int,
+    random_state: int = 42,
+) -> list[tuple]:
+    cv = StratifiedGroupKFold(
+        n_splits=cv_folds, shuffle=True, random_state=random_state
+    )
+    return list(cv.split(texts, labels, groups))
+
+
+def calibrate_pipeline(
+    pipeline,
+    texts: list[str],
+    labels: list[str],
+    groups: list[str],
+    cv_folds: int = 5,
+) -> CalibratedClassifierCV:
+    calibrated = CalibratedClassifierCV(
+        estimator=pipeline,
+        method="sigmoid",
+        cv=make_group_splits(texts, labels, groups, cv_folds),
+        ensemble=False,
+    )
+    return calibrated.fit(texts, labels)
 
 
 def build_intent_pipeline(
@@ -36,31 +83,27 @@ def train_intent_model(
     feature_set: str = "combined",
     test_size: float = 0.2,
     cv_folds: int = 5,
+    model_params: dict | None = None,
 ) -> dict:
     # local import to break circular dependency
     from .evaluation import evaluate_cross_validation, evaluate_holdout
 
     pipe = build_intent_pipeline(model_name, feature_set)
+    if model_params:
+        pipe.set_params(**model_params)
     holdout = evaluate_holdout(pipe, csv_path, test_size=test_size)
     cross_val = evaluate_cross_validation(pipe, csv_path, cv_folds=cv_folds)
 
     model_path.parent.mkdir(parents=True, exist_ok=True)
-    texts, labels = load_intent_data(csv_path)
-    X_train, X_test, y_train, y_test = train_test_split(
-        texts,
-        labels,
-        test_size=test_size,
-        random_state=42,
-        stratify=labels,
-    )
-    pipe.fit(X_train, y_train)
-
-    joblib.dump(pipe, model_path)
+    texts, labels, groups = load_intent_dataset(csv_path)
+    calibrated = calibrate_pipeline(pipe, texts, labels, groups, cv_folds)
+    joblib.dump(calibrated, model_path)
 
     return {
         "model_name": model_name,
         "feature_set": feature_set,
-        "train_size": holdout["train_size"],
+        "train_size": len(texts),
+        "evaluation_train_size": holdout["train_size"],
         "test_size": holdout["test_size"],
         "train_accuracy": holdout["train_accuracy"],
         "train_f1_macro": holdout["train_f1_macro"],
@@ -82,26 +125,12 @@ def train_intent_model(
     }
 
 
-def predict_intent(pipe: Pipeline, text: str) -> tuple[str, float]:
-    text_n = normalize_text(text)
-    clf = pipe.named_steps["clf"]
-
-    if hasattr(clf, "predict_proba"):
-        proba = pipe.predict_proba([text_n])[0]
-        idx = int(proba.argmax())
-        return pipe.classes_[idx], float(proba[idx])
-
-    if hasattr(clf, "decision_function"):
-        scores = pipe.decision_function([text_n])[0]
-        if scores.ndim == 1:
-            # binary
-            idx = int(scores.argmax())
-        else:
-            idx = int(np.argmax(scores))
-        # pseudo-probability via softmax
-        exp = np.exp(scores - np.max(scores))
-        prob = exp / exp.sum()
-        return pipe.classes_[idx], float(prob[idx])
-
-    label = pipe.predict([text_n])[0]
-    return label, 1.0
+def predict_intent(
+    pipe: Pipeline, text: str, menu: MenuMatcher | None = None
+) -> tuple[str, float]:
+    text_n = normalize_text(text, menu)
+    if not hasattr(pipe, "predict_proba"):
+        raise ValueError("Модель не має каліброваних ймовірностей. Запустіть train.py.")
+    proba = pipe.predict_proba([text_n])[0]
+    idx = int(proba.argmax())
+    return pipe.classes_[idx], float(proba[idx])

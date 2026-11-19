@@ -2785,3 +2785,128 @@ miy zakaz #6586 koly bude?,track_order,TRANSLIT,generated,track_order:UA:15
 Привезіть на вулиця Лесі Українки 117 Borscht / Борщ на сьогодні ввечері,create_order,UA,generated,create_order:UA:15
 "2 Pasta, 96 Main Sttreet, apt 55, Apple Pay",create_order,EN,generated,create_order:EN:12
 quiet now,cancel_order,EN,original,orig:cancel_order:quiet now
+"Якщо візьму борщ і салат, можна розрахуватися Apple Pay?",faq,UA,curated,faq:curated:payment
+Кур'єр має термінал чи краще підготувати готівку?,faq,UA,curated,faq:curated:payment
+Гроші списуються одразу під час оформлення чи вже після доставки?,faq,UA,curated,faq:curated:payment
+Can I split the bill between cash and a card?,faq,EN,curated,faq:curated:payment
+Do you charge the card when I place the order or when it arrives?,faq,EN,curated,faq:curated:payment
+Чи проходить Google Pay для замовлення онлайн?,faq,MIX,curated,faq:curated:payment
+У піці пепероні є молоко або інші алергени?,faq,UA,curated,faq:curated:allergens
+"Чи готуєте картоплю фрі в тій самій олії, що й страви з глютеном?",faq,UA,curated,faq:curated:allergens
+"Де подивитися повний склад вареників, зокрема можливі сліди горіхів?",faq,UA,curated,faq:curated:allergens
+Is the Caesar salad safe for someone with an egg allergy?,faq,EN,curated,faq:curated:allergens
+Could you tell me whether the burger buns contain sesame?,faq,EN,curated,faq:curated:allergens
+Does Pizza Margherita contain lactose?,faq,MIX,curated,faq:curated:allergens
+"Підкажіть, до котрої години сьогодні возите на Садгору?",faq,UA,curated,faq:curated:delivery
+Скільки зазвичай їде кур'єр до університетського кампусу?,faq,UA,curated,faq:curated:delivery
+На околиці теж доставляєте чи тільки в межах центру?,faq,UA,curated,faq:curated:delivery
+Would a delivery to the airport area take much longer than usual?,faq,EN,curated,faq:curated:delivery
+Do you still deliver to the suburbs after 9 pm?,faq,EN,curated,faq:curated:delivery
+Is there a separate delivery charge for the old town?,faq,EN,curated,faq:curated:delivery
+А в Рогізну кур'єр їде у вихідні?,faq,MIX,curated,faq:curated:delivery
+do yakoyi hodyny dostavliaiete v tsentr?,faq,TRANSLIT,curated,faq:curated:delivery
+"Яку найменшу суму треба набрати, щоб кур'єр виїхав?",faq,UA,curated,faq:curated:minimum
+"Якщо замовлю лише каву, оформлення пройде чи є мінімалка?",faq,UA,curated,faq:curated:minimum
+Є мінімальна вартість кошика для доставки на Шевченка?,faq,UA,curated,faq:curated:minimum
+Is there a minimum spend before delivery becomes available?,faq,EN,curated,faq:curated:minimum
+"Could I order just one portion of fries, or is there a minimum?",faq,EN,curated,faq:curated:minimum
+Ви приймаєте замовлення після опівночі у п'ятницю?,faq,UA,curated,faq:curated:hours
+А на Великдень кухня працюватиме за звичним графіком?,faq,UA,curated,faq:curated:hours
+О котрій відкриваєтесь у неділю?,faq,UA,curated,faq:curated:hours
+"Are you open on public holidays, and when does the kitchen close?",faq,EN,curated,faq:curated:hours
+Can I place an order before your doors open for lunch?,faq,EN,curated,faq:curated:hours
+koli vy vidkryvaietesia v nediliu?,faq,TRANSLIT,curated,faq:curated:hours
+"Як повернути гроші, якщо оплатив онлайн, а замовлення скасували?",faq,UA,curated,faq:curated:refunds
+Піца приїхала холодна — куди написати щодо компенсації?,faq,UA,curated,faq:curated:refunds
+Скільки чекати на повернення коштів після помилкового списання?,faq,UA,curated,faq:curated:refunds
+"Замовлення ще не привезли, але статус завис: як подати скаргу?",faq,UA,curated,faq:curated:refunds
+What is your refund policy if an item is missing from my order?,faq,EN,curated,faq:curated:refunds
+The burger arrived damaged; can I request a refund or replacement?,faq,EN,curated,faq:curated:refunds
+"Чи можна оплатити замовлення карткою, якщо в кошику тільки борщ?",faq,UA,curated,faq:curated:hard_negative
+"У вас є алергени в салаті цезарі, чи можна замовити без яєць?",faq,UA,curated,faq:curated:hard_negative
+Чи доставляєте піцу на Героїв Майдану і скільки це коштує?,faq,UA,curated,faq:curated:hard_negative
+Яка мінімальна сума замовлення на вареники?,faq,UA,curated,faq:curated:hard_negative
+"Чи повертаєте кошти, коли замовлення запізнилося?",faq,UA,curated,faq:curated:hard_negative
+"Can I get a refund for a cold Pizza Pepperoni, and how long does it take?",faq,EN,curated,faq:curated:hard_negative
+"What time can I order a burger, and do you deliver to the campus?",faq,EN,curated,faq:curated:hard_negative
+Is the minimum order amount different if I only want coffee?,faq,EN,curated,faq:curated:hard_negative
+Замовлення з French Fries можна оплатити готівкою кур'єру?,faq,MIX,curated,faq:curated:hard_negative
+chi ye alerheny u borshchi?,faq,TRANSLIT,curated,faq:curated:hard_negative
+yak povernuty hroshi za zamovlennia?,faq,TRANSLIT,curated,faq:curated:hard_negative
+yak zminyty adresu v zamovlenni?,faq,TRANSLIT,curated,faq:curated:hard_negative
+Якою буде погода в Одесі на вихідних?,other,UA,curated,other:curated:weather
+Чи варто завтра брати парасолю?,other,UA,curated,other:curated:weather
+Will it be sunny in London this afternoon?,other,EN,curated,other:curated:weather
+What is the temperature in Toronto right now?,other,EN,curated,other:curated:weather
+Розкажи короткий жарт про програмістів.,other,UA,curated,other:curated:jokes
+Можеш придумати смішний тост?,other,UA,curated,other:curated:jokes
+Tell me a clean joke for a birthday party.,other,EN,curated,other:curated:jokes
+Make up a funny one-liner about cats.,other,EN,curated,other:curated:jokes
+Як дістатися від вокзалу до аеропорту?,other,UA,curated,other:curated:travel
+Коли відправляється наступний потяг до Львова?,other,UA,curated,other:curated:travel
+Find me a train from Berlin to Prague.,other,EN,curated,other:curated:travel
+How long is the flight to Madrid?,other,EN,curated,other:curated:travel
+Скільки буде 17 помножити на 23?,other,UA,curated,other:curated:math
+"Порахуй, будь ласка, 145 мінус 68.",other,UA,curated,other:curated:math
+What is the square root of 256?,other,EN,curated,other:curated:math
+Convert 72 Fahrenheit to Celsius.,other,EN,curated,other:curated:math
+Переклади слово «umbrella» українською.,other,UA,curated,other:curated:translation
+Як англійською сказати «дякую за допомогу»?,other,UA,curated,other:curated:translation
+Translate bonjour into English.,other,EN,curated,other:curated:translation
+What does the Polish word proszę mean?,other,EN,curated,other:curated:translation
+Порадь детективний серіал на вечір.,other,UA,curated,other:curated:entertainment
+Який альбом випустив гурт Океан Ельзи першим?,other,UA,curated,other:curated:entertainment
+Recommend a science-fiction movie from the 1990s.,other,EN,curated,other:curated:entertainment
+Who directed the film Spirited Away?,other,EN,curated,other:curated:entertainment
+Який зараз курс євро до гривні?,other,UA,curated,other:curated:finance
+"Поясни простими словами, що таке складний відсоток.",other,UA,curated,other:curated:finance
+What was the price of gold yesterday?,other,EN,curated,other:curated:finance
+How do I make a monthly household budget?,other,EN,curated,other:curated:finance
+Допоможи скласти ввічливий лист викладачу.,other,UA,curated,other:curated:writing
+Напиши чотири рядки про осінній ліс.,other,UA,curated,other:curated:writing
+Draft a short thank-you note for my neighbor.,other,EN,curated,other:curated:writing
+Suggest a title for a presentation about climate change.,other,EN,curated,other:curated:writing
+Хто написав «Місто» Валер'яна Підмогильного?,other,UA,curated,other:curated:knowledge
+Яка столиця Португалії?,other,UA,curated,other:curated:knowledge
+Why is the sky blue?,other,EN,curated,other:curated:knowledge
+Who was the first person to walk on the Moon?,other,EN,curated,other:curated:knowledge
+Як змінити пароль у пошті?,other,UA,curated,other:curated:account
+"Не можу увійти у свій банківський застосунок, що робити?",other,UA,curated,other:curated:account
+How do I recover access to my social media account?,other,EN,curated,other:curated:account
+Can you help me set up two-factor authentication?,other,EN,curated,other:curated:account
+Як під'єднати бездротові навушники до ноутбука?,other,UA,curated,other:curated:devices
+Чому телефон швидко розряджається?,other,UA,curated,other:curated:devices
+My printer is offline; how can I reconnect it?,other,EN,curated,other:curated:devices
+Which laptop is good for photo editing?,other,EN,curated,other:curated:devices
+Хто виграв учорашній матч збірної України?,other,UA,curated,other:curated:sports
+Поясни правила офсайду у футболі.,other,UA,curated,other:curated:sports
+When is the next Formula One race?,other,EN,curated,other:curated:sports
+Who holds the women's marathon world record?,other,EN,curated,other:curated:sports
+"Як відновити доступ до електронної пошти, якщо забув пароль?",other,UA,curated,other:curated:account
+Could you help me change the password for my email account?,other,EN,curated,other:curated:account
+I cannot sign in to my bank app; how do I unlock it?,other,EN,curated,other:curated:account
+Увімкни спокійну музику для роботи.,other,UA,curated,other:curated:media
+Play a relaxing jazz playlist while I work.,other,EN,curated,other:curated:media
+Can you recommend a podcast about history?,other,EN,curated,other:curated:media
+У якому магазині продають недорогі ноутбуки?,other,UA,curated,other:curated:shopping
+Where can I compare prices for a new laptop?,other,EN,curated,other:curated:shopping
+Find a store that sells wireless headphones.,other,EN,curated,other:curated:shopping
+Нагадай мені зателефонувати о сьомій ранку.,other,UA,curated,other:curated:time_tools
+Set a reminder for my dentist appointment tomorrow.,other,EN,curated,other:curated:time_tools
+Де купити квиток на потяг до Києва?,other,UA,curated,other:curated:travel
+Скільки коштує проїзд автобусом до аеропорту?,other,UA,curated,other:curated:travel
+Where can I book a flight to Warsaw?,other,EN,curated,other:curated:travel
+Як приготувати борщ удома з нуля?,other,UA,curated,other:curated:food_general
+Хто першим придумав суші?,other,UA,curated,other:curated:food_general
+How do I make pizza dough at home?,other,EN,curated,other:curated:food_general
+Translate the word burger into French.,other,EN,curated,other:curated:food_general
+What is the history of pad thai?,other,EN,curated,other:curated:food_general
+Write a short poem about a rainy afternoon.,other,EN,curated,other:curated:writing
+Чому листя змінює колір восени?,other,UA,curated,other:curated:knowledge
+What time does the tennis final start tomorrow?,other,EN,curated,other:curated:sports
+de moie zamovlennia?,track_order,TRANSLIT,curated,track_order:curated:translit
+koly pryide kurier?,track_order,TRANSLIT,curated,track_order:curated:translit
+perevir status zamovlennia 7281,track_order,TRANSLIT,curated,track_order:curated:translit
+kuryer vzhe vyikhav?,track_order,TRANSLIT,curated,track_order:curated:translit
+skilky shche chekati na dostavku?,track_order,TRANSLIT,curated,track_order:curated:translit
+mii zakaz SH-8421 de?,track_order,TRANSLIT,curated,track_order:curated:translit

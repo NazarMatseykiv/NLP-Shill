@@ -14,7 +14,7 @@ from sklearn.metrics import (
     precision_score,
     recall_score,
 )
-from sklearn.model_selection import StratifiedKFold, cross_validate, train_test_split
+from sklearn.model_selection import StratifiedGroupKFold, cross_validate
 
 from .model_registry import get_model_candidates
 
@@ -33,18 +33,24 @@ def compare_models(
     test_size: float = 0.2,
     random_state: int = 42,
 ) -> dict:
-    from .intent_model import load_intent_data
+    from .intent_model import load_intent_dataset
 
-    texts, labels = load_intent_data(csv_path)
-    X_train, X_test, y_train, y_test = train_test_split(
-        texts,
-        labels,
-        test_size=test_size,
-        random_state=random_state,
-        stratify=labels,
+    texts, labels, groups = load_intent_dataset(csv_path)
+    splits = list(
+        StratifiedGroupKFold(
+            n_splits=cv_folds, shuffle=True, random_state=random_state
+        ).split(texts, labels, groups)
     )
 
-    cv = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=random_state)
+    train_idx, test_idx = splits[0]
+    X_train = [texts[i] for i in train_idx]
+    X_test = [texts[i] for i in test_idx]
+    y_train = [labels[i] for i in train_idx]
+    y_test = [labels[i] for i in test_idx]
+    groups_train = [groups[i] for i in train_idx]
+    cv = StratifiedGroupKFold(
+        n_splits=cv_folds, shuffle=True, random_state=random_state
+    )
     scoring = {
         "accuracy": "accuracy",
         "f1_macro": "f1_macro",
@@ -58,10 +64,11 @@ def compare_models(
     for name, pipeline in candidates.items():
         cv_scores = cross_validate(
             pipeline,
-            texts,
-            labels,
+            X_train,
+            y_train,
             cv=cv,
             scoring=scoring,
+            groups=groups_train,
             n_jobs=-1,
         )
         t0 = time.perf_counter()
@@ -107,10 +114,12 @@ def compare_models(
 
 def evaluate_cross_validation(pipeline, csv_path: Path, cv_folds: int = 5, random_state: int = 42) -> dict:
     # local import to avoid circular dependency
-    from .intent_model import load_intent_data
+    from .intent_model import load_intent_dataset
 
-    texts, labels = load_intent_data(csv_path)
-    cv = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=random_state)
+    texts, labels, groups = load_intent_dataset(csv_path)
+    cv = StratifiedGroupKFold(
+        n_splits=cv_folds, shuffle=True, random_state=random_state
+    )
     scoring = {
         "accuracy": "accuracy",
         "f1_macro": "f1_macro",
@@ -124,6 +133,7 @@ def evaluate_cross_validation(pipeline, csv_path: Path, cv_folds: int = 5, rando
         labels,
         cv=cv,
         scoring=scoring,
+        groups=groups,
         n_jobs=-1,
     )
 
@@ -142,16 +152,19 @@ def evaluate_cross_validation(pipeline, csv_path: Path, cv_folds: int = 5, rando
 
 def evaluate_holdout(pipeline, csv_path: Path, test_size: float = 0.2) -> dict:
     # local import to avoid circular dependency
-    from .intent_model import load_intent_data
+    from .intent_model import load_intent_dataset
 
-    texts, labels = load_intent_data(csv_path)
-    X_train, X_test, y_train, y_test = train_test_split(
-        texts,
-        labels,
-        test_size=test_size,
-        random_state=42,
-        stratify=labels,
+    texts, labels, groups = load_intent_dataset(csv_path)
+    n_splits = max(2, round(1 / test_size))
+    train_idx, test_idx = next(
+        StratifiedGroupKFold(
+            n_splits=n_splits, shuffle=True, random_state=42
+        ).split(texts, labels, groups)
     )
+    X_train = [texts[i] for i in train_idx]
+    X_test = [texts[i] for i in test_idx]
+    y_train = [labels[i] for i in train_idx]
+    y_test = [labels[i] for i in test_idx]
     pipeline.fit(X_train, y_train)
     y_pred = pipeline.predict(X_test)
     y_train_pred = pipeline.predict(X_train)

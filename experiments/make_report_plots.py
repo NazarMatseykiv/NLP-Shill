@@ -12,8 +12,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import ConfusionMatrixDisplay, accuracy_score, confusion_matrix, f1_score
-from sklearn.model_selection import (StratifiedGroupKFold, StratifiedKFold,
-                                     learning_curve, train_test_split)
+from sklearn.model_selection import StratifiedGroupKFold, learning_curve
 from sklearn.naive_bayes import ComplementNB
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
@@ -39,15 +38,11 @@ def build(algo: str, feat: str) -> Pipeline:
 
 
 def split(texts, labels, groups):
-    if groups is not None:
-        sgkf = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=SEED)
-        tr, te = next(sgkf.split(texts, labels, groups))
-        pick = lambda seq, idx: [seq[i] for i in idx]
-        return (pick(texts, tr), pick(texts, te), pick(labels, tr), pick(labels, te),
-                pick(groups, tr), "за групами шаблонів")
-    X_tr, X_te, y_tr, y_te = train_test_split(
-        texts, labels, test_size=0.2, random_state=SEED, stratify=labels)
-    return X_tr, X_te, y_tr, y_te, None, "випадковий стратифікований"
+    sgkf = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=SEED)
+    tr, te = next(sgkf.split(texts, labels, groups))
+    pick = lambda seq, idx: [seq[i] for i in idx]
+    return (pick(texts, tr), pick(texts, te), pick(labels, tr), pick(labels, te),
+            pick(groups, tr), "за групами шаблонів")
 
 
 def acc_ci(y_true, y_pred, n=1000):
@@ -142,8 +137,7 @@ def plot_cm(y_true, y_pred, labels, title: str, fname: Path) -> None:
 
 # 4. Крива навчання
 def plot_learning_curve(X_tr, y_tr, g_tr, fname: Path) -> None:
-    cv = (StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=SEED)
-          if g_tr is not None else StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED))
+    cv = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=SEED)
     sizes, tr, va = learning_curve(
         build("linear_svc", "combined"), X_tr, y_tr, groups=g_tr, cv=cv,
         scoring="f1_macro", train_sizes=np.linspace(0.1, 1.0, 8), shuffle=True,

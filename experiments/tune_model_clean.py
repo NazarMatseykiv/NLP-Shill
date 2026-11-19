@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
-import unicodedata
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -11,15 +10,16 @@ import joblib
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import accuracy_score, classification_report, f1_score
-from sklearn.model_selection import GridSearchCV, StratifiedKFold, train_test_split
+from sklearn.model_selection import GridSearchCV, StratifiedGroupKFold
 from sklearn.pipeline import FeatureUnion, Pipeline
 from sklearn.svm import LinearSVC
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from src.intent_model import load_intent_dataset
+
 SEED = 42
-
-
-def normalize(text: str) -> str:
-    return re.sub(r"\s+", " ", unicodedata.normalize("NFC", str(text).strip().lower()))
 
 
 def build() -> Pipeline:
@@ -49,16 +49,23 @@ def main() -> None:
     ap.add_argument("--models-dir", default="models")
     args = ap.parse_args()
 
-    df = pd.read_csv(args.data)
-    texts = [normalize(t) for t in df["text"].astype(str)]
-    labels = df["intent"].astype(str).tolist()
-    X_tr, X_te, y_tr, y_te = train_test_split(
-        texts, labels, test_size=0.2, random_state=SEED, stratify=labels)
+    texts, labels, groups = load_intent_dataset(Path(args.data))
+    splits = list(
+        StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=SEED).split(
+            texts, labels, groups
+        )
+    )
+    train_idx, test_idx = splits[0]
+    X_tr = [texts[i] for i in train_idx]
+    X_te = [texts[i] for i in test_idx]
+    y_tr = [labels[i] for i in train_idx]
+    y_te = [labels[i] for i in test_idx]
+    groups_tr = [groups[i] for i in train_idx]
 
     search = GridSearchCV(
         build(), GRID, scoring="f1_macro", n_jobs=-1, refit=True,
-        cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED))
-    search.fit(X_tr, y_tr)
+        cv=StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=SEED))
+    search.fit(X_tr, y_tr, groups=groups_tr)
 
     y_pred = search.best_estimator_.predict(X_te)
     holdout = {
