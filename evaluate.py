@@ -21,18 +21,6 @@ SLOT_TEST_CASES = [
         "address_contains": "Руську 22",
     },
     {
-        "text": "Order 2 pizzas to Baker Street 87",
-        "expected_dishes": ["Pizza Margherita"],
-        "expected_quantities": {"Pizza Margherita": 2},
-        "address_contains": "Baker Street 87",
-    },
-    {
-        "text": "zamovte 2 pitsy na Shevchenka 5",
-        "expected_dishes": ["Pizza Margherita"],
-        "expected_quantities": {"Pizza Margherita": 2},
-        "address_contains": "шевченка 5",
-    },
-    {
         "text": "Два борщі та салат на вул. Шевченка 12",
         "expected_dishes": ["Borscht / Борщ", "Caesar Salad"],
         "address_contains": "Шевченка",
@@ -43,13 +31,6 @@ SLOT_TEST_CASES = [
         "address_contains": "Main Street",
         "payment": "card",
         "comment_contains": "leave at the door",
-    },
-    {
-        "text": "На вул. Шевченка 12 хочу два бургери та піцу, карткою",
-        "expected_dishes": ["Burger", "Pizza Margherita"],
-        "expected_quantities": {"Burger": 2, "Pizza Margherita": 1},
-        "address_contains": "Шевченка",
-        "payment": "card",
     },
     {
         "text": "На вул. Шевченка 12 хочу піцу пепероні та four cheese pizza, карткою",
@@ -64,17 +45,11 @@ SLOT_TEST_CASES = [
         "address_contains": "Шевченка",
         "payment": "card",
     },
-    {
-        "text": "One pizza no onions at 5 Oak Avenue",
-        "expected_dishes": ["Pizza Margherita"],
-        "comment_contains": "no",
-    },
 ]
 
 SLOT_DISH_CASES = [
     ("борщ", "Borscht / Борщ"),
     ("varenyky", "Varenyky / Вареники"),
-    ("pizza", "Pizza Margherita"),
     ("salad", "Caesar Salad"),
     ("burger", "Burger"),
     ("fries", "French Fries"),

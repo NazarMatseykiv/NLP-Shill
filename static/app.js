@@ -213,13 +213,64 @@ function renderResult(data) {
     }
   } else {
     noticeBlock.classList.remove("hidden");
-    const messages = {
-      track_order: "Клієнт запитує статус замовлення. Перевірте номер у списку активних доставок.",
-      cancel_order: "Клієнт хоче скасувати замовлення. Знайдіть його в активних доставках.",
-      faq: "Загальне питання. Відповідайте згідно з меню та регламентом.",
-    };
-    noticeBlock.textContent =
-      messages[data.intent] || "Обробіть звернення вручну за стандартною процедурою.";
+    const responseText = data.response_text || "Обробіть звернення вручну за стандартною процедурою.";
+    const action = data.action || {};
+    let actionButtons = `
+      <button type="button" class="btn secondary action-copy">Скопіювати відповідь</button>
+    `;
+
+    if (action.type === "cancel" && action.delivery && action.needs_confirmation) {
+      actionButtons += `
+        <button type="button" class="btn danger action-cancel">Скасувати замовлення</button>
+      `;
+    }
+    if (action.type === "track" && action.delivery) {
+      actionButtons += `
+        <button type="button" class="btn primary action-open-deliveries">Відкрити доставку</button>
+      `;
+    }
+
+    noticeBlock.innerHTML = `
+      <strong>Готова відповідь клієнту</strong>
+      <textarea class="action-response" rows="3">${escapeHtml(responseText)}</textarea>
+      <div class="action-buttons">${actionButtons}</div>
+      <p class="action-status"></p>
+    `;
+
+    const copyButton = noticeBlock.querySelector(".action-copy");
+    copyButton.addEventListener("click", async () => {
+      const text = noticeBlock.querySelector(".action-response").value;
+      try {
+        await navigator.clipboard.writeText(text);
+        noticeBlock.querySelector(".action-status").textContent = "Відповідь скопійовано.";
+      } catch {
+        noticeBlock.querySelector(".action-status").textContent =
+          "Не вдалося скопіювати. Виділіть текст вручну.";
+      }
+    });
+
+    const cancelButton = noticeBlock.querySelector(".action-cancel");
+    if (cancelButton) {
+      cancelButton.addEventListener("click", async () => {
+        try {
+          const result = await api(`/api/cancel/${encodeURIComponent(action.order_id)}`, {
+            method: "POST",
+          });
+          noticeBlock.querySelector(".action-status").textContent = result.message;
+          if (result.ok) {
+            cancelButton.disabled = true;
+            cancelButton.textContent = "Скасовано";
+          }
+        } catch (error) {
+          noticeBlock.querySelector(".action-status").textContent = error.message;
+        }
+      });
+    }
+
+    const deliveriesButton = noticeBlock.querySelector(".action-open-deliveries");
+    if (deliveriesButton) {
+      deliveriesButton.addEventListener("click", () => switchPage("deliveries"));
+    }
   }
 
   const { intent_title, intent_color, summary, ...raw } = data;

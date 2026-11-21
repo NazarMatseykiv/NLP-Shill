@@ -423,6 +423,46 @@ textarea:focus {
   margin-bottom: 0.75rem;
 }
 
+.notice .action-response {
+  width: 100%;
+  min-height: 72px;
+  margin-top: 0.6rem;
+  resize: vertical;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 0.55rem 0.65rem;
+  font: inherit;
+  color: #1e3a8a;
+  background: #fff;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.action-status {
+  min-height: 18px;
+  margin: 0.5rem 0 0;
+  font-size: 0.78rem;
+}
+
+.btn.danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.btn.danger:hover {
+  background: #b91c1c;
+}
+
+.btn.danger:disabled {
+  background: #94a3b8;
+  cursor: default;
+}
+
 .tech-details {
   margin-top: 0.5rem;
 }
