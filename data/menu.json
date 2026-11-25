@@ -6,7 +6,6 @@
   {"id": 7, "name": "Coffee / Кава", "aliases": ["кава", "каву", "coffee", "espresso", "latte", "cappuccino"]},
   {"id": 8, "name": "Coke / Cola / Кола", "aliases": ["кола", "колу", "коли", "coke", "cola", "coca-cola", "soda"]},
   {"id": 9, "name": "Chicken Wings / Курячі крильця", "aliases": ["chicken wings", "wings", "hot wings", "курячі крильця", "курині крильця", "крильця"]},
-  {"id": 10, "name": "Pasta / Паста", "aliases": ["паста", "пасту", "pasta", "spaghetti"]},
   {"id": 11, "name": "Soup / Суп", "aliases": ["суп", "супу", "soup", "miso soup", "tomato soup"]},
   {"id": 12, "name": "Sushi Roll / Суші-рол", "aliases": ["суші", "суші рол", "sushi", "sushi roll"]},
   {"id": 13, "name": "Tacos / Тако", "aliases": ["тако", "taco", "tacos"]},

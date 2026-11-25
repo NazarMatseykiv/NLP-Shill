@@ -39,7 +39,7 @@ class AnalyzeRequest(BaseModel):
 
 
 EXAMPLES = [
-    {"label": "Нове замовлення", "text": "Один борщ, 2 салати та 2 піци 4 сири на вул. Шевченка 12, карткою"},
+    {"label": "Нове замовлення", "text": "Два чізбургер, 3 пасти карбонара та 2 гавайські піци на вул. Шевченка 12, карткою"},
     {"label": "English", "text": "Two burgers and 1 fries to 12 Groove Street, cash"},
     {"label": "Статус", "text": "Де моє замовлення, коли привезуть?"},
     {"label": "Скасувати", "text": "Скасуйте замовлення, будь ласка"},
@@ -203,25 +203,49 @@ def build_cancel_result(text: str) -> tuple[str, dict]:
 
 def build_faq_result(text: str) -> tuple[str, dict]:
     lowered = text.lower()
-    topic = "general"
-    if any(word in lowered for word in ("доставк", "delivery", "кур'єр", "courier", "привез")):
-        topic = "delivery"
-        message = "Середній час доставки становить 35–60 хвилин."
-    elif any(word in lowered for word in ("меню", "страв", "dish", "menu", "їжа")):
-        topic = "menu"
-        message = "Ознайомитися зі списком доступних страв можна у розділі «Меню»."
-    elif any(word in lowered for word in ("оплат", "карт", "готів", "cash", "card")):
-        topic = "payment"
-        message = "Доступна оплата карткою та готівкою кур'єру."
-    elif any(word in lowered for word in ("скільки кошту", "ціна", "price", "cost")):
-        topic = "price"
-        message = "Точну ціну страви можна перевірити у розділі «Меню»."
-    elif any(word in lowered for word in ("працю", "відкрит", "годин", "open", "hours")):
-        topic = "hours"
-        message = "Час роботи уточнюється оператором."
-    else:
-        message = "Давайте уточнимо, яке саме питання вас цікавить."
-    return message, {"topic": topic}
+    topics = []
+    messages = []
+    asks_delivery_fee = (
+        any(word in lowered for word in ("доставк", "delivery"))
+        and any(word in lowered for word in ("скільки кошту", "ціна", "вартіст", "price", "cost", "fee"))
+    )
+    asks_delivery_time = any(
+        word in lowered
+        for word in ("скільки часу", "як довго", "коли привез", "час достав", "how long", "when will", "eta")
+    )
+
+    if any(word in lowered for word in ("меню", "страв", "dish", "menu", "їжа")):
+        topics.append("menu")
+        messages.append("Перелік доступних страв можна переглянути в розділі «Меню».")
+    if asks_delivery_fee:
+        topics.append("delivery_fee")
+        messages.append(
+            "Вартість доставки наразі не вказана в системі. Оператор уточнить її для вашої адреси."
+        )
+    elif asks_delivery_time:
+        topics.append("delivery_time")
+        messages.append("Орієнтовний час доставки становить 35–60 хвилин.")
+    elif any(word in lowered for word in ("доставк", "delivery", "кур'єр", "courier", "привез")):
+        topics.append("delivery")
+        messages.append("Щоб перевірити час або стан доставки, повідомте номер замовлення.")
+    if any(word in lowered for word in ("оплат", "карт", "готів", "cash", "card")):
+        topics.append("payment")
+        messages.append("Доступна оплата карткою та готівкою кур'єру.")
+    if (
+        not asks_delivery_fee
+        and any(word in lowered for word in ("скільки кошту", "ціна", "price", "cost"))
+    ):
+        topics.append("price")
+        messages.append("Точну ціну страви можна перевірити у розділі «Меню».")
+    if any(word in lowered for word in ("працю", "відкрит", "годин", "open", "hours")):
+        topics.append("hours")
+        messages.append("Час роботи уточнюється оператором.")
+    if not messages:
+        topics.append("general")
+        messages.append("Давайте уточнимо, яке саме питання вас цікавить.")
+
+    topic = topics[0] if len(topics) == 1 else "multiple"
+    return " ".join(messages), {"topic": topic, "topics": topics}
 
 
 @app.on_event("startup")

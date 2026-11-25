@@ -35,7 +35,11 @@ QUANTITY_WORDS = {
     "ten": 10,
 }
 
-GENERIC_PIZZA_TERMS = {"піца", "піцу", "піци", "піц", "pizza", "pizzas"}
+GENERIC_DISH_TERMS = {
+    "піца", "піцу", "піци", "піц", "pizza", "pizzas",
+    "паста", "пасту", "пасти", "пастою", "pasta", "pastas",
+    "спагеті", "спагетти", "spaghetti",
+}
 
 STOP_TOKENS = {
     # Ukrainian common small words
@@ -422,7 +426,7 @@ class SlotExtractor:
             matched_item = exact_match
             matched_n = exact_n
             if matched_item is None:
-                if ti not in GENERIC_PIZZA_TERMS:
+                if ti not in GENERIC_DISH_TERMS:
                     item = self.menu.match_dish(tokens[i])
                     if item and item["id"] not in seen:
                         matched_item = item
@@ -472,7 +476,7 @@ class SlotExtractor:
                         phrase_tokens = tokens[i : i + n]
                         phrase = " ".join(phrase_tokens)
                         item = self.menu.alias_to_item.get(phrase)
-                        if item is None and n == 1 and ti not in GENERIC_PIZZA_TERMS:
+                        if item is None and n == 1 and ti not in GENERIC_DISH_TERMS:
                             item = self.menu.match_dish(phrase)
                         if item:
                             matched_item = item

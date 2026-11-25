@@ -56,7 +56,7 @@ SLOT_DISH_CASES = [
     ("coffee", "Coffee"),
     ("sushi", "Sushi Roll"),
     ("tacos", "Tacos"),
-    ("pasta", "Pasta"),
+    ("carbonara", "Carbonara / Паста Карбонара"),
 ]
 
 SLOT_TEMPLATES = [
