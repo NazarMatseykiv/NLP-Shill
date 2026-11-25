@@ -151,7 +151,7 @@ function renderResult(data) {
   badge.style.background = data.intent_color || "#64748b";
 
   const conf = Math.round((data.intent_confidence || 0) * 100);
-  $("#confidence").textContent = `Точність розпізнавання: ${conf}%`;
+  $("#confidence").textContent = `Впевненість моделі: ${conf}%`;
   $("#conf-bar").style.width = `${conf}%`;
   $("#summary").textContent = data.summary || "";
 

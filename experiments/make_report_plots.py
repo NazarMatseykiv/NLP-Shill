@@ -120,7 +120,6 @@ def plot_model_bars(res: pd.DataFrame, split_name: str, metric: str, lo: str, hi
 
 # 3. Матриця помилок
 def plot_cm(y_true, y_pred, labels, title: str, fname: Path) -> None:
-    labels = [label for label in labels if label != "other"]
     y_true = np.asarray(y_true)
     y_pred = np.asarray(y_pred)
     included = np.isin(y_true, labels) & np.isin(y_pred, labels)
